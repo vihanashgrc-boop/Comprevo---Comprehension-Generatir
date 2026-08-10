@@ -1,0 +1,8 @@
+{
+  "name": "COMPREVO",
+  "description": "COMPREVO is a modern Reading Comprehension and Assessment Platform powered by Gemini. Generate age-appropriate passages, customized questions, detailed answer keys, and printable worksheets.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

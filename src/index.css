@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Playfair+Display:ital,wght@0,400..700;1,400..700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-display: "Playfair Display", serif;
+  
+  --color-zinc-55: #f7f7f8;
+  --color-zinc-150: #ececed;
+  --color-zinc-250: #dadade;
+  --color-zinc-350: #bababf;
+  --color-zinc-355: #bababf;
+  --color-zinc-450: #898992;
+  --color-zinc-550: #61616a;
+  --color-zinc-650: #48484f;
+  --color-zinc-750: #333338;
+  --color-zinc-850: #1f1f23;
+}
+
+/* Ensure select and option elements always have high-contrast readable text regardless of OS dark/light mode and browser default settings */
+select, option {
+  color: #1c1917 !important; /* Default dark text in light mode */
+  background-color: #ffffff !important; /* Default white background in light mode */
+}
+
+.dark select, .dark option {
+  color: #f4f4f5 !important; /* Force readable white text in dark mode */
+  background-color: #1c1c21 !important; /* Force dark background in dark mode */
+}
+
+/* Input elements focus styling safeguards */
+input:focus, select:focus, textarea:focus {
+  outline: 2px solid #059669 !important;
+  outline-offset: 1px;
+}
+
+/* Premium editorial/commercial aesthetic background and base resets */
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: #fafaf9; /* Extremely soft warm white canvas */
+  color: #1c1917; /* Slate dark stone text */
+  letter-spacing: -0.01em;
+}
+
+.dark body {
+  background-color: #0b0b0c; /* Ultra clean velvet dark obsidian */
+  color: #f4f4f5;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #e4e4e7;
+  border-radius: 9999px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #27272a;
+}
+
+/* Elegant and ultra-clean container/card styles */
+.glass-card {
+  background: #ffffff;
+  border: 1px solid #e4e4e7;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.02);
+}
+
+.dark .glass-card {
+  background: #121214;
+  border: 1px solid #242427;
+  box-shadow: none;
+}
+
+.step-active {
+  background: #059669; /* Elegant Emerald */
+  color: white;
+}
+
+.dark .step-active {
+  background: #10b981;
+  color: #064e3b;
+}
+
+.step-inactive {
+  background: #f4f4f5;
+  color: #71717a;
+}
+
+.dark .step-inactive {
+  background: #1c1c21;
+  color: #a1a1aa;
+}
+
+.card-select {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-select:hover {
+  transform: translateY(-2px);
+  border-color: #d4d4d8;
+  box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.04);
+}
+
+.dark .card-select:hover {
+  border-color: #2e2e33;
+  box-shadow: none;
+}
+
+.badge-outline {
+  border: 1px solid #e4e4e7;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #71717a;
+}
+
+.dark .badge-outline {
+  border: 1px solid #27272a;
+  color: #a1a1aa;
+}
