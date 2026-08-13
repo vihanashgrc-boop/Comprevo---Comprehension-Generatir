@@ -44,16 +44,82 @@
           "@id": "https://comprevo-comprehension-generator.vercel.app/#website",
           "url": "https://comprevo-comprehension-generator.vercel.app/",
           "name": "Comprevo",
-          "description": "Free AI Reading Comprehension Generator for Students and Teachers",
+          "description": "Free AI Reading Comprehension Generator for Students, Teachers, and Parents",
           "publisher": {
             "@id": "https://comprevo-comprehension-generator.vercel.app/#organization"
+          },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://comprevo-comprehension-generator.vercel.app/?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
           }
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://comprevo-comprehension-generator.vercel.app/#organization",
+          "name": "Comprevo",
+          "url": "https://comprevo-comprehension-generator.vercel.app/",
+          "logo": {
+            "@type": "ImageObject",
+            "@id": "https://comprevo-comprehension-generator.vercel.app/#logo",
+            "url": "https://comprevo-comprehension-generator.vercel.app/icon.svg",
+            "caption": "Comprevo Logo"
+          },
+          "image": {
+            "@id": "https://comprevo-comprehension-generator.vercel.app/#logo"
+          },
+          "sameAs": [
+            "https://twitter.com/comprevo",
+            "https://facebook.com/comprevo",
+            "https://linkedin.com/company/comprevo"
+          ]
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://comprevo-comprehension-generator.vercel.app/#webpage",
+          "url": "https://comprevo-comprehension-generator.vercel.app/",
+          "name": "Comprevo — Free AI Reading Comprehension Passage Generator for Students & Teachers",
+          "description": "Comprevo is a free AI Reading Comprehension Generator. Instantly create custom reading passages, worksheets, data interpretation graphs, and questions for Grade 6–10 students, teachers, and parents.",
+          "isPartOf": {
+            "@id": "https://comprevo-comprehension-generator.vercel.app/#website"
+          },
+          "about": {
+            "@id": "https://comprevo-comprehension-generator.vercel.app/#webapplication"
+          },
+          "breadcrumb": {
+            "@id": "https://comprevo-comprehension-generator.vercel.app/#breadcrumb"
+          },
+          "inLanguage": "en-US"
         },
         {
           "@type": "WebApplication",
           "@id": "https://comprevo-comprehension-generator.vercel.app/#webapplication",
           "url": "https://comprevo-comprehension-generator.vercel.app/",
-          "name": "Comprevo AI Comprehension Generator",
+          "name": "Comprevo",
+          "applicationCategory": "EducationalApplication",
+          "operatingSystem": "Web Browser",
+          "browserRequirements": "Requires JavaScript. Requires HTML5.",
+          "softwareVersion": "1.0.0",
+          "offers": {
+            "@type": "Offer",
+            "price": "0.00",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock"
+          },
+          "description": "AI-powered comprehension generator that creates reading passages, questions, and educational practice for students and teachers.",
+          "image": "https://comprevo-comprehension-generator.vercel.app/icon.svg",
+          "author": {
+            "@id": "https://comprevo-comprehension-generator.vercel.app/#organization"
+          }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://comprevo-comprehension-generator.vercel.app/#softwareapplication",
+          "url": "https://comprevo-comprehension-generator.vercel.app/",
+          "name": "Comprevo AI Reading Comprehension Generator",
           "applicationCategory": "EducationalApplication",
           "operatingSystem": "All",
           "offers": {
@@ -61,14 +127,7 @@
             "price": "0.00",
             "priceCurrency": "USD"
           },
-          "description": "AI-powered tool for generating custom reading comprehension passages, worksheets, and questions for students and teachers."
-        },
-        {
-          "@type": "Organization",
-          "@id": "https://comprevo-comprehension-generator.vercel.app/#organization",
-          "name": "Comprevo",
-          "url": "https://comprevo-comprehension-generator.vercel.app/",
-          "logo": "https://comprevo-comprehension-generator.vercel.app/icon.svg"
+          "description": "Free AI software tool for generating custom English reading comprehension passages, multiple choice questions, worksheets, and data interpretation practice."
         },
         {
           "@type": "BreadcrumbList",
@@ -85,6 +144,60 @@
               "position": 2,
               "name": "Reading Comprehension Generator",
               "item": "https://comprevo-comprehension-generator.vercel.app/#generator"
+            }
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://comprevo-comprehension-generator.vercel.app/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is an AI comprehension generator?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "An AI comprehension generator is a smart tool that creates reading passages, questions, vocabulary exercises, and answer keys automatically using artificial intelligence."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How does Comprevo work?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Comprevo allows you to pick your grade level, curriculum board, difficulty level, topic, and question types. Our AI then creates a custom reading passage with questions and an instant answer key."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is Comprevo free?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, Comprevo is 100% free to use for students, teachers, parents, and tutors with no sign-up required."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can teachers use Comprevo?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, teachers can instantly generate printable worksheets, reading tests, homework sheets, and data interpretation practice for their classrooms."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can students generate comprehension passages?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, students can practice daily reading skills, test their understanding with real-time feedback, and prepare for school exams."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I create comprehension questions automatically?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, Comprevo automatically generates multiple-choice questions, short-answer questions, true/false, vocabulary practice, and grammar checks."
+              }
             }
           ]
         }
