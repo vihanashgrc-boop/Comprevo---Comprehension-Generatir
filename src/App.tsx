@@ -12,7 +12,7 @@ import PassageViewer from "./components/PassageViewer";
 import WorksheetSolver from "./components/WorksheetSolver";
 import DataInterpretationModule from "./components/DataInterpretationModule";
 import PrivacyModal from "./components/PrivacyModal";
-import { Sparkles, Compass, AlertCircle, BookOpen, Clock, Activity, RefreshCw } from "lucide-react";
+import { Sparkles, Compass, AlertCircle, BookOpen, Clock, Activity, RefreshCw, ArrowLeft } from "lucide-react";
 
 export default function App() {
   // Theme Management

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://comprevo-comprehension-generator.vercel.app/sitemap.xml

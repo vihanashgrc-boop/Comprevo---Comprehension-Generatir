@@ -1,0 +1,16 @@
+{
+  "short_name": "Comprevo",
+  "name": "Comprevo - AI Reading Comprehension Passage Generator",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#ffffff",
+  "theme_color": "#059669",
+  "display": "standalone",
+  "orientation": "portrait"
+}

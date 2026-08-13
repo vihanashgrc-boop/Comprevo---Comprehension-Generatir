@@ -629,6 +629,25 @@ Please evaluate this worksheet attempt and respond with a single, perfectly form
   }
 });
 
+// Serve SEO & PWA files
+app.get("/sitemap.xml", (req, res) => {
+  const publicPath = path.join(process.cwd(), "public", "sitemap.xml");
+  res.header("Content-Type", "application/xml");
+  res.sendFile(publicPath);
+});
+
+app.get("/robots.txt", (req, res) => {
+  const publicPath = path.join(process.cwd(), "public", "robots.txt");
+  res.header("Content-Type", "text/plain");
+  res.sendFile(publicPath);
+});
+
+app.get("/manifest.json", (req, res) => {
+  const publicPath = path.join(process.cwd(), "public", "manifest.json");
+  res.header("Content-Type", "application/json");
+  res.sendFile(publicPath);
+});
+
 // Serve frontend and static assets
 async function startServer() {
   if (process.env.NODE_ENV !== "production") {
