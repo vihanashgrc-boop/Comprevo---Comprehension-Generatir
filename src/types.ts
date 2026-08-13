@@ -35,15 +35,69 @@ export type PassageType =
   | "Narrative"
   | "Descriptive"
   | "Expository"
+  | "Analytical"
+  | "Argumentative"
   | "Persuasive"
-  | "Biographical"
-  | "Scientific"
   | "Historical"
+  | "Scientific"
+  | "Biographical"
+  | "Editorial"
+  | "Literary"
   | "Fiction"
   | "Adventure"
   | "Moral Story"
   | "Editorial Style"
+  | "Data Interpretation"
   | "Random";
+
+export type DataChartType = 
+  | "Bar Graph"
+  | "Pie Chart"
+  | "Line Graph"
+  | "Table"
+  | "Flow Chart"
+  | "Infographic"
+  | "Mixed Data Set";
+
+export type DataQuestionFocus = 
+  | "Data Reading"
+  | "Comparison"
+  | "Percentages"
+  | "Ratios"
+  | "Trends"
+  | "Logical Reasoning"
+  | "Inference"
+  | "Conclusions";
+
+export interface DataInterpretationSet {
+  id: string;
+  timestamp: string;
+  title: string;
+  description: string;
+  chartType: DataChartType;
+  dataset: {
+    headers?: string[];
+    rows?: (string | number)[][];
+    categories?: string[];
+    series?: { name: string; values: number[]; color?: string }[];
+    slices?: { label: string; value: number; percentage?: number; color?: string }[];
+    flowSteps?: { step: number; title: string; description: string; type?: "start" | "process" | "decision" | "end" }[];
+    infographicNodes?: { title: string; stat: string; subtext: string; badge?: string }[];
+    summaryText?: string;
+  };
+  questions: Question[];
+  difficultWords: DifficultWord[];
+  learningObjectivesMet: string[];
+  curriculumComplianceNotes: string;
+  config: {
+    board: BoardType;
+    academicLevel: string;
+    difficulty: DifficultyLevel;
+    chartType: DataChartType;
+    questionFocuses: DataQuestionFocus[];
+    language: "English" | "Hindi";
+  };
+}
 
 export type PassageLengthType = "Very Short" | "Short" | "Medium" | "Long" | "Very Long" | "Random";
 

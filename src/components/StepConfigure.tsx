@@ -31,11 +31,12 @@ export default function StepConfigure({
     "Astronomy", "Custom", "Random"
   ];
 
-  // Passage Genres
+  // Passage Genres / Comprehension Categories
   const types: PassageType[] = [
-    "Informative", "Narrative", "Descriptive", "Expository", "Persuasive", 
-    "Biographical", "Scientific", "Historical", "Fiction", "Adventure", 
-    "Moral Story", "Editorial Style", "Random"
+    "Informative", "Narrative", "Descriptive", "Expository", "Analytical", 
+    "Argumentative", "Persuasive", "Historical", "Scientific", "Biographical", 
+    "Editorial", "Literary", "Fiction", "Adventure", "Moral Story", 
+    "Editorial Style", "Data Interpretation", "Random"
   ];
 
   // Word count options
@@ -289,10 +290,10 @@ export default function StepConfigure({
       {/* Editorial Header */}
       <div className="space-y-2 text-left md:text-center md:max-w-2xl md:mx-auto">
         <h3 className="font-display text-3xl md:text-4xl font-bold tracking-tight text-zinc-900 dark:text-white">
-          Custom Directives
+          Worksheet Settings
         </h3>
         <p className="text-xs md:text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
-          Fine-tune theme directives, vocabulary limits, grammar target constraints, and diagnostic question structures.
+          Choose your topic, reading style, question types, and grammar focus to create a personalized worksheet.
         </p>
       </div>
 
@@ -305,7 +306,7 @@ export default function StepConfigure({
           <div className="space-y-5 rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 shadow-xs">
             <div className="flex items-center space-x-2 border-b border-zinc-100 pb-3 dark:border-zinc-800">
               <AlignLeft className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
-              <h4 className="font-sans text-xs font-bold text-zinc-800 dark:text-zinc-200 uppercase tracking-widest">Passage Generation Settings</h4>
+              <h4 className="font-sans text-xs font-bold text-zinc-800 dark:text-zinc-200 uppercase tracking-widest">Passage Settings</h4>
             </div>
 
             {/* Language Selector */}
@@ -313,9 +314,8 @@ export default function StepConfigure({
               <label className="block text-[10px] font-mono font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider mb-2 flex items-center justify-between">
                 <span className="flex items-center">
                   <Languages className="mr-1.5 h-3.5 w-3.5 text-zinc-400" />
-                  Language Medium
+                  Language
                 </span>
-                <span className="text-[9px] bg-zinc-50 border border-zinc-200/80 rounded px-1.5 py-0.5 font-mono text-zinc-400 dark:bg-zinc-800 dark:border-zinc-700">STRICT</span>
               </label>
               <div className="grid grid-cols-2 gap-2.5">
                 {(["English", "Hindi"] as const).map((lang) => (
@@ -338,7 +338,7 @@ export default function StepConfigure({
             {/* Topic Select */}
             <div>
               <label className="block text-[10px] font-mono font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider mb-1.5">
-                Reading Topic Theme
+                Topic
               </label>
               <select
                 value={topic}
@@ -346,7 +346,7 @@ export default function StepConfigure({
                 className="w-full rounded-lg border border-zinc-200 bg-zinc-50/40 py-2 px-3 text-xs outline-none transition focus:border-emerald-600 focus:bg-white dark:focus:bg-zinc-800 dark:border-zinc-800 dark:bg-zinc-850 dark:text-white"
               >
                 {topics.map((t) => (
-                  <option key={t} value={t}>{t === "Random" ? "Random (Selected dynamically)" : t}</option>
+                  <option key={t} value={t}>{t === "Random" ? "Random topic" : t}</option>
                 ))}
               </select>
 
@@ -355,7 +355,7 @@ export default function StepConfigure({
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Space Colonization or Indian Monuments"
+                    placeholder="e.g. Space Exploration or Ancient Monuments"
                     value={customTopic}
                     onChange={(e) => setCustomTopic(e.target.value)}
                     className="w-full rounded-lg border border-zinc-200 bg-zinc-50/40 py-2 px-3 text-xs outline-none transition focus:border-emerald-600 focus:bg-white dark:focus:bg-zinc-800 dark:border-zinc-800 dark:bg-zinc-850 dark:text-white"
@@ -367,7 +367,7 @@ export default function StepConfigure({
             {/* Passage Type / Genre */}
             <div>
               <label className="block text-[10px] font-mono font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider mb-1.5">
-                Passage Literary Style
+                Reading Style
               </label>
               <select
                 value={passageType}
@@ -375,16 +375,22 @@ export default function StepConfigure({
                 className="w-full rounded-lg border border-zinc-200 bg-zinc-50/40 py-2 px-3 text-xs outline-none transition focus:border-emerald-600 focus:bg-white dark:focus:bg-zinc-800 dark:border-zinc-800 dark:bg-zinc-850 dark:text-white"
               >
                 {types.map((type) => (
-                  <option key={type} value={type}>{type === "Random" ? "Random (Adapted style)" : type}</option>
+                  <option key={type} value={type}>{type === "Random" ? "Random style" : type}</option>
                 ))}
               </select>
+              {passageType === "Data Interpretation" && (
+                <div className="mt-2 p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-[11px] text-emerald-800 dark:text-emerald-300 flex items-center gap-2">
+                  <span className="font-bold">📊 Visual Module:</span>
+                  <span>Generates interactive Bar Graphs, Pie Charts, Line Graphs, Data Tables, Flow Charts, and Infographics.</span>
+                </div>
+              )}
             </div>
 
             {/* Passage Length & Words */}
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-[10px] font-mono font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider mb-1.5">
-                  Length Estimate
+                  Length
                 </label>
                 <select
                   value={passageLength}
@@ -402,7 +408,7 @@ export default function StepConfigure({
 
               <div>
                 <label className="block text-[10px] font-mono font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider mb-1.5">
-                  Exact Word Density Target
+                  Word Count
                 </label>
                 <select
                   value={wordCount}
@@ -410,7 +416,7 @@ export default function StepConfigure({
                   className="w-full rounded-lg border border-zinc-200 bg-zinc-50/40 py-2 px-3 text-xs outline-none transition focus:border-emerald-600 focus:bg-white dark:focus:bg-zinc-800 dark:border-zinc-800 dark:bg-zinc-850 dark:text-white"
                 >
                   {wordCountOptions.map((wc) => (
-                    <option key={wc} value={wc}>{wc === "Random" ? "Adaptive Count" : `${wc} Words`}</option>
+                    <option key={wc} value={wc}>{wc === "Random" ? "Auto-select count" : `${wc} Words`}</option>
                   ))}
                 </select>
               </div>
@@ -420,7 +426,7 @@ export default function StepConfigure({
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-[10px] font-mono font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider mb-1.5">
-                  Vocabulary Framework
+                  Vocabulary Level
                 </label>
                 <select
                   value={vocabularyLevel}
@@ -428,14 +434,14 @@ export default function StepConfigure({
                   className="w-full rounded-lg border border-zinc-200 bg-zinc-50/40 py-2 px-3 text-xs outline-none transition focus:border-emerald-600 focus:bg-white dark:focus:bg-zinc-800 dark:border-zinc-800 dark:bg-zinc-850 dark:text-white"
                 >
                   {vocabLevels.map((vl) => (
-                    <option key={vl} value={vl}>{vl === "Random" ? "Adaptive Vocabulary" : vl}</option>
+                    <option key={vl} value={vl}>{vl === "Random" ? "Auto-select level" : vl}</option>
                   ))}
                 </select>
               </div>
 
               <div>
                 <label className="block text-[10px] font-mono font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider mb-1.5">
-                  Writing Signature / Style
+                  Writing Style
                 </label>
                 <select
                   value={aiFeature}
@@ -454,10 +460,10 @@ export default function StepConfigure({
               <Activity className="h-4.5 w-4.5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
               <div className="text-xs font-sans">
                 <p className="font-bold text-zinc-800 dark:text-zinc-200">
-                  Live Estimator Metrics
+                  Reading Time Estimate
                 </p>
                 <p className="text-zinc-550 dark:text-zinc-400 mt-1">
-                  Target density: <strong className="text-zinc-900 dark:text-white">{wordCount === "Random" ? `~350` : wordCount} words</strong>. Average estimated reading speed puts completion time at <strong className="text-emerald-700 dark:text-emerald-400 font-bold">{estimatedTime} minutes</strong>.
+                  Length: <strong className="text-zinc-900 dark:text-white">{wordCount === "Random" ? `~350` : wordCount} words</strong>. Average reading time is about <strong className="text-emerald-700 dark:text-emerald-400 font-bold">{estimatedTime} minute{estimatedTime > 1 ? "s" : ""}</strong>.
                 </p>
               </div>
             </div>
@@ -467,7 +473,7 @@ export default function StepConfigure({
           <div className="space-y-5 rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 shadow-xs">
             <div className="flex items-center space-x-2 border-b border-zinc-100 pb-3 dark:border-zinc-800">
               <CheckSquare className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
-              <h4 className="font-sans text-xs font-bold text-zinc-800 dark:text-zinc-200 uppercase tracking-widest">Worksheet Assessment Formats</h4>
+              <h4 className="font-sans text-xs font-bold text-zinc-800 dark:text-zinc-200 uppercase tracking-widest">Question Formats</h4>
             </div>
 
             {/* Question types list with high precision */}
@@ -501,8 +507,8 @@ export default function StepConfigure({
             {/* Grammar options */}
             <div>
               <label className="block text-[10px] font-mono font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider mb-2 flex justify-between items-center">
-                <span>Grammar Targets</span>
-                <span className="text-zinc-450 font-normal tracking-normal lowercase italic">Contextual evaluation</span>
+                <span>Grammar Focus</span>
+                <span className="text-zinc-450 font-normal tracking-normal lowercase italic">Select topics to practice</span>
               </label>
               <div className="flex flex-wrap gap-1.5 border border-zinc-150 p-3 rounded-lg bg-zinc-50/10 dark:border-zinc-800">
                 {grammarOptionsList.map((g) => {
@@ -528,7 +534,7 @@ export default function StepConfigure({
             {/* Learning objectives */}
             <div>
               <label className="block text-[10px] font-mono font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider mb-2">
-                Learning Objectives
+                Skill Focus
               </label>
               <div className="flex flex-wrap gap-1.5 border border-zinc-150 p-3 rounded-lg bg-zinc-50/10 dark:border-zinc-800">
                 {learningObjectivesList.map((o) => {
@@ -557,33 +563,33 @@ export default function StepConfigure({
         <div className="col-span-12 md:col-span-4">
           <div className="rounded-xl border border-zinc-200 bg-white p-6 sticky top-20 dark:border-zinc-800 dark:bg-zinc-900 shadow-xs space-y-5">
             <div className="border-b border-zinc-100 pb-3 dark:border-zinc-800">
-              <span className="text-[8px] font-mono font-bold text-zinc-400 dark:text-zinc-500 tracking-widest uppercase">CONFIGURATION SUMMARY</span>
-              <h3 className="text-sm font-bold text-zinc-850 dark:text-white tracking-tight mt-0.5">Worksheet Blueprint</h3>
+              <span className="text-[8px] font-mono font-bold text-zinc-400 dark:text-zinc-500 tracking-widest uppercase">SUMMARY</span>
+              <h3 className="text-sm font-bold text-zinc-850 dark:text-white tracking-tight mt-0.5">Worksheet Summary</h3>
             </div>
             
             <div className="space-y-3.5 text-xs font-sans">
               <div className="flex justify-between items-center">
-                <span className="text-zinc-400 dark:text-zinc-500 font-medium">Syllabus Framework</span>
+                <span className="text-zinc-400 dark:text-zinc-500 font-medium">Board</span>
                 <span className="font-bold text-zinc-800 dark:text-zinc-200">{board}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-zinc-400 dark:text-zinc-500 font-medium">Target Standard</span>
+                <span className="text-zinc-400 dark:text-zinc-500 font-medium">Class / Grade</span>
                 <span className="font-bold text-zinc-800 dark:text-zinc-200">{academicLevel}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-zinc-400 dark:text-zinc-500 font-medium">Reading Complexity</span>
+                <span className="text-zinc-400 dark:text-zinc-500 font-medium">Difficulty</span>
                 <span className="inline-flex items-center px-2 py-0.5 rounded font-mono font-bold text-[9px] bg-emerald-50 border border-emerald-100 dark:bg-emerald-950/20 dark:border-emerald-900/30 text-emerald-800 dark:text-emerald-400">
                   {difficulty}
                 </span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-zinc-400 dark:text-zinc-500 font-medium">Syllabus Theme</span>
+                <span className="text-zinc-400 dark:text-zinc-500 font-medium">Topic</span>
                 <span className="font-bold text-zinc-800 dark:text-zinc-200 max-w-[140px] truncate text-right" title={topic === "Custom" ? customTopic : topic}>
                   {topic === "Custom" ? customTopic || "Custom" : topic}
                 </span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-zinc-400 dark:text-zinc-500 font-medium">Literary Style</span>
+                <span className="text-zinc-400 dark:text-zinc-500 font-medium">Style</span>
                 <span className="font-bold text-zinc-800 dark:text-zinc-200">{passageType}</span>
               </div>
               <div className="pt-4 border-t border-zinc-100 dark:border-zinc-800 space-y-3">
@@ -592,7 +598,7 @@ export default function StepConfigure({
                   <span className="font-bold text-zinc-800 dark:text-zinc-100">~{estimatedTime} min read</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-zinc-400 dark:text-zinc-500 font-medium">Lexical Density</span>
+                  <span className="text-zinc-400 dark:text-zinc-500 font-medium">Word Count</span>
                   <span className="font-bold text-zinc-800 dark:text-zinc-100">
                     {wordCount === "Random" ? `~350 Words` : `${wordCount} Words`}
                   </span>

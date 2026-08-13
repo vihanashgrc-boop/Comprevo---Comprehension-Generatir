@@ -45,7 +45,7 @@ export default function Header({
               COMPREVO
             </span>
             <div className="text-[8px] font-mono font-bold tracking-widest text-emerald-600 dark:text-emerald-400 uppercase">
-              Read. Comprehend. Excel.
+              Read. Learn. Succeed.
             </div>
           </div>
         </div>
@@ -57,18 +57,18 @@ export default function Header({
             <div className="hidden items-center space-x-2 sm:flex">
               <div 
                 className="flex items-center space-x-1.5 rounded-full border border-orange-200/50 bg-orange-50/40 px-2.5 py-0.5 text-[10px] font-mono font-medium text-orange-700 dark:border-orange-950/30 dark:bg-orange-950/20 dark:text-orange-400"
-                title="Daily Practice Streak"
+                title="Daily practice streak"
               >
                 <Flame className="h-3 w-3 fill-orange-500 text-orange-500 animate-pulse" />
-                <span>STREAK: {user.streak}D</span>
+                <span>Streak: {user.streak}d</span>
               </div>
 
               <div 
                 className="flex items-center space-x-1.5 rounded-full border border-emerald-200/50 bg-emerald-50/40 px-2.5 py-0.5 text-[10px] font-mono font-medium text-emerald-800 dark:border-emerald-950/30 dark:bg-emerald-950/20 dark:text-emerald-400"
-                title="Total generated worksheets"
+                title="Total finished worksheets"
               >
                 <Award className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
-                <span>SHEETS: {user.totalWorksheets}</span>
+                <span>Worksheets: {user.totalWorksheets}</span>
               </div>
             </div>
           )}
@@ -124,7 +124,7 @@ export default function Header({
                         className="flex w-full items-center space-x-2 rounded-md px-2.5 py-1.5 text-left text-xs text-zinc-600 transition hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-800 cursor-pointer"
                       >
                         <User className="h-3.5 w-3.5 text-zinc-400" />
-                        <span>Profile Preferences</span>
+                        <span>Profile Settings</span>
                       </button>
 
                       <button
@@ -135,7 +135,7 @@ export default function Header({
                         className="flex w-full items-center space-x-2 rounded-md px-2.5 py-1.5 text-left text-xs text-zinc-600 transition hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-800 cursor-pointer"
                       >
                         <Library className="h-3.5 w-3.5 text-emerald-600" />
-                        <span>Worksheet Cabinet</span>
+                        <span>My Worksheets</span>
                       </button>
 
                       <hr className="my-1 border-zinc-100 dark:border-zinc-800" />

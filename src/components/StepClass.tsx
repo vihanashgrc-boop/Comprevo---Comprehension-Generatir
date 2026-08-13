@@ -29,15 +29,15 @@ export default function StepClass({ selected, onChange, onNext, onPrev }: StepCl
       <div className="flex items-center justify-between border-b border-zinc-200/60 dark:border-zinc-800/60 pb-5">
         <div className="flex items-center space-x-2">
           <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">
-            Phase 01
+            Step 1
           </span>
           <span className="text-zinc-300 dark:text-zinc-600">→</span>
           <span className="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 tracking-widest uppercase">
-            Phase 02 / 04
+            Step 2 of 4
           </span>
           <span className="text-zinc-300 dark:text-zinc-700">•</span>
           <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">
-            Grade Preference
+            Class / Grade
           </span>
         </div>
         <div className="flex space-x-1">
@@ -51,10 +51,10 @@ export default function StepClass({ selected, onChange, onNext, onPrev }: StepCl
       {/* Editorial Header */}
       <div className="space-y-2 text-left md:text-center md:max-w-2xl md:mx-auto">
         <h3 className="font-display text-3xl md:text-4xl font-bold tracking-tight text-zinc-900 dark:text-white">
-          Target Standard
+          Select Class or Grade
         </h3>
         <p className="text-xs md:text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
-          Specify standard grade levels from elementary systems to highly competitive exam frameworks to calibrate comprehension assessment models.
+          Choose your school class or target competitive exam to get reading material tailored for you.
         </p>
       </div>
 

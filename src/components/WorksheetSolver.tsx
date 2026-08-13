@@ -90,12 +90,10 @@ export default function WorksheetSolver({
 
   // List of educational loading statements for worksheet evaluation
   const loadingMessages = [
-    "Analyzing your descriptive vocabulary...",
-    "Reviewing spelling and conceptual alignment...",
-    "Validating comprehension depth...",
-    "Checking alternative phrasing matches...",
-    "Synthesizing customized practice notes...",
-    "Calculating final grades and rewards..."
+    "Checking your answers...",
+    "Reviewing spelling and word choices...",
+    "Checking your understanding of the text...",
+    "Calculating your score and streak..."
   ];
   const [loadingMsgIdx, setLoadingMsgIdx] = useState(0);
 

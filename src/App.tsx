@@ -10,6 +10,7 @@ import StepDifficulty from "./components/StepDifficulty";
 import StepConfigure from "./components/StepConfigure";
 import PassageViewer from "./components/PassageViewer";
 import WorksheetSolver from "./components/WorksheetSolver";
+import DataInterpretationModule from "./components/DataInterpretationModule";
 import PrivacyModal from "./components/PrivacyModal";
 import { Sparkles, Compass, AlertCircle, BookOpen, Clock, Activity, RefreshCw } from "lucide-react";
 
@@ -208,6 +209,15 @@ export default function App() {
 
   // Trigger Passage Generation
   const handleGeneratePassage = async (finalConfig: any) => {
+    // If Data Interpretation is selected, open the dedicated Data Interpretation Workspace
+    if (finalConfig.passageType === "Data Interpretation") {
+      setBoard(finalConfig.board || "National Standard");
+      setAcademicLevel(finalConfig.academicLevel || "Class 8");
+      setDifficulty(finalConfig.difficulty || "Medium");
+      setStep("data_interpretation");
+      return;
+    }
+
     setGenerationLoading(true);
     setStep("generating");
     setErrorText("");
@@ -342,6 +352,27 @@ export default function App() {
     localStorage.setItem("passage_user_session", JSON.stringify(updatedUser));
   };
 
+  // Handle completion of Data Interpretation worksheets
+  const handleDataWorksheetCompleted = (score: number, maxScore: number, xp: number) => {
+    if (!user) return;
+    const updatedUser = { ...user };
+    updatedUser.xp = (updatedUser.xp || 0) + xp;
+    updatedUser.totalWorksheets = (updatedUser.totalWorksheets || 0) + 1;
+    const today = new Date().toLocaleDateString();
+    updatedUser.completedWorksheets = updatedUser.completedWorksheets || [];
+    updatedUser.completedWorksheets.push({
+      id: "di_" + Date.now(),
+      title: "Data Interpretation Session",
+      score,
+      maxScore,
+      date: today,
+      timestamp: today
+    });
+    const synced = syncStreak(updatedUser);
+    setUser(synced);
+    localStorage.setItem("passage_user_session", JSON.stringify(synced));
+  };
+
   return (
     <div className="min-h-screen bg-stone-50/40 pb-16 transition-colors dark:bg-[#09090b]">
       
@@ -402,6 +433,19 @@ export default function App() {
                 setStep("viewer");
               }}
               onRemoveFavorite={handleToggleFavorite}
+              onOpenDataInterpretation={() => setStep("data_interpretation")}
+            />
+          )}
+
+          {/* STEP: DATA INTERPRETATION MODULE */}
+          {step === "data_interpretation" && user && (
+            <DataInterpretationModule
+              user={user}
+              board={board}
+              academicLevel={academicLevel || "Class 8"}
+              difficulty={difficulty}
+              onBackToDashboard={() => setStep("dashboard")}
+              onWorksheetCompleted={handleDataWorksheetCompleted}
             />
           )}
 

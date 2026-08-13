@@ -13,31 +13,31 @@ export default function StepBoard({ selected, onChange, onNext }: StepBoardProps
     {
       name: "National Standard",
       tag: "STANDARD CORE",
-      desc: "Standardized national syllabus focusing on balanced core subjects and clear conceptual foundations.",
+      desc: "Standard national curriculum focusing on balanced subjects and clear lessons.",
       icon: Landmark,
     },
     {
       name: "Advanced Curriculum",
       tag: "HONORS & AP",
-      desc: "A literature-rich rigorous curriculum emphasizing deep linguistic, literary, and analytic skills.",
+      desc: "In-depth learning focused on strong reading, writing, and analytical skills.",
       icon: Award,
     },
     {
       name: "Regional Syllabus",
       tag: "LOCALIZED BENCHMARKS",
-      desc: "A specialized syllabus tailored to localized benchmarks, regional languages, and practical studies.",
+      desc: "Syllabus based on local education standards and regional topics.",
       icon: GraduationCap,
     },
     {
       name: "International Baccalaureate",
       tag: "GLOBAL INQUIRY",
-      desc: "An inquiry-based global curriculum focused on student-led learning and intercultural understanding.",
+      desc: "Global learning focused on active thinking and real-world understanding.",
       icon: Globe,
     },
     {
       name: "Cambridge Standard",
       tag: "RIGOROUS DISCIPLINES",
-      desc: "A world-renowned academic pathway prioritizing structured, rigorous intellectual disciplines.",
+      desc: "World-recognized curriculum focused on structured learning.",
       icon: Compass,
     },
   ];
@@ -48,11 +48,11 @@ export default function StepBoard({ selected, onChange, onNext }: StepBoardProps
       <div className="flex items-center justify-between border-b border-zinc-200/60 dark:border-zinc-800/60 pb-5">
         <div className="flex items-center space-x-2">
           <span className="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 tracking-widest uppercase">
-            Phase 01 / 04
+            Step 1 of 4
           </span>
           <span className="text-zinc-300 dark:text-zinc-700">•</span>
           <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">
-            Syllabus Selection
+            Education Board
           </span>
         </div>
         <div className="flex space-x-1">
@@ -66,10 +66,10 @@ export default function StepBoard({ selected, onChange, onNext }: StepBoardProps
       {/* Editorial Header */}
       <div className="space-y-2 text-left md:text-center md:max-w-2xl md:mx-auto">
         <h3 className="font-display text-3xl md:text-4xl font-bold tracking-tight text-zinc-900 dark:text-white">
-          Syllabus Framework
+          Choose Education Board
         </h3>
         <p className="text-xs md:text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed font-sans">
-          Our platform shapes context, vocabulary complexity, and comprehension inquiry pathways based on your designated standard.
+          Select your education board to get passages and questions tailored to your syllabus.
         </p>
       </div>
 

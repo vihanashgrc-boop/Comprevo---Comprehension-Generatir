@@ -82,7 +82,194 @@ async function generateContentWithRetryAndFallback(
   throw lastError || new Error("Failed to generate content after trying multiple models and retries.");
 }
 
-// JSON Schema definition for passage responses
+// JSON Schema definition for data interpretation sets
+const dataInterpretationSchema = {
+  type: Type.OBJECT,
+  properties: {
+    id: { type: Type.STRING },
+    title: { type: Type.STRING, description: "Title of the data interpretation set" },
+    description: { type: Type.STRING, description: "Background description explaining what the data represents." },
+    chartType: { 
+      type: Type.STRING, 
+      description: "One of: 'Bar Graph', 'Pie Chart', 'Line Graph', 'Table', 'Flow Chart', 'Infographic', 'Mixed Data Set'" 
+    },
+    dataset: {
+      type: Type.OBJECT,
+      properties: {
+        summaryText: { type: Type.STRING, description: "Overview note describing key takeaways or background notes" },
+        headers: { type: Type.ARRAY, items: { type: Type.STRING }, description: "Column headers for Tables or Data grids" },
+        rows: { 
+          type: Type.ARRAY, 
+          items: { 
+            type: Type.ARRAY, 
+            items: { type: Type.STRING } 
+          },
+          description: "Data rows for Tables or Data grids"
+        },
+        categories: { type: Type.ARRAY, items: { type: Type.STRING }, description: "X-axis categories for Bar/Line Graphs" },
+        series: {
+          type: Type.ARRAY,
+          items: {
+            type: Type.OBJECT,
+            properties: {
+              name: { type: Type.STRING },
+              values: { type: Type.ARRAY, items: { type: Type.NUMBER } },
+              color: { type: Type.STRING }
+            },
+            required: ["name", "values"]
+          }
+        },
+        slices: {
+          type: Type.ARRAY,
+          items: {
+            type: Type.OBJECT,
+            properties: {
+              label: { type: Type.STRING },
+              value: { type: Type.NUMBER },
+              percentage: { type: Type.NUMBER },
+              color: { type: Type.STRING }
+            },
+            required: ["label", "value"]
+          }
+        },
+        flowSteps: {
+          type: Type.ARRAY,
+          items: {
+            type: Type.OBJECT,
+            properties: {
+              step: { type: Type.INTEGER },
+              title: { type: Type.STRING },
+              description: { type: Type.STRING },
+              type: { type: Type.STRING }
+            },
+            required: ["step", "title", "description"]
+          }
+        },
+        infographicNodes: {
+          type: Type.ARRAY,
+          items: {
+            type: Type.OBJECT,
+            properties: {
+              title: { type: Type.STRING },
+              stat: { type: Type.STRING },
+              subtext: { type: Type.STRING },
+              badge: { type: Type.STRING }
+            },
+            required: ["title", "stat", "subtext"]
+          }
+        }
+      }
+    },
+    questions: {
+      type: Type.ARRAY,
+      items: {
+        type: Type.OBJECT,
+        properties: {
+          id: { type: Type.INTEGER },
+          type: { type: Type.STRING, description: "'mcq' or 'shortAnswer'" },
+          question: { type: Type.STRING },
+          options: { type: Type.ARRAY, items: { type: Type.STRING } },
+          answer: { type: Type.STRING },
+          explanation: { type: Type.STRING, description: "Detailed mathematical, trend, or logical step-by-step breakdown" }
+        },
+        required: ["id", "type", "question", "answer", "explanation"]
+      }
+    },
+    difficultWords: {
+      type: Type.ARRAY,
+      items: {
+        type: Type.OBJECT,
+        properties: {
+          word: { type: Type.STRING },
+          meaning: { type: Type.STRING },
+          contextSentence: { type: Type.STRING }
+        },
+        required: ["word", "meaning", "contextSentence"]
+      }
+    },
+    learningObjectivesMet: { type: Type.ARRAY, items: { type: Type.STRING } },
+    curriculumComplianceNotes: { type: Type.STRING }
+  },
+  required: [
+    "title",
+    "description",
+    "chartType",
+    "dataset",
+    "questions",
+    "difficultWords",
+    "learningObjectivesMet",
+    "curriculumComplianceNotes"
+  ]
+};
+
+// API Endpoint: Generate Data Interpretation
+app.post("/api/generate-data-interpretation", async (req, res) => {
+  try {
+    const {
+      board = "National Standard",
+      academicLevel = "Class 8",
+      difficulty = "Medium",
+      chartType = "Bar Graph",
+      questionFocuses = ["Data Reading", "Comparison", "Percentages", "Trends"],
+      language = "English"
+    } = req.body;
+
+    const ai = getGeminiClient();
+
+    const systemPrompt = `You are a data analysis and quantitative reasoning exam designer.
+Your goal is to generate an authentic Data Interpretation problem set with visual data specifications and analytical questions.
+
+Curriculum parameters:
+- Board: ${board}
+- Target Grade / Exam Level: ${academicLevel}
+- Difficulty Level: ${difficulty}
+- Visual Representation Type: ${chartType}
+- Question Focus Areas: ${questionFocuses.join(", ")}
+- Language: ${language}
+
+DIRECTIVES FOR DATASET & VISUAL CREATION:
+- If chartType is "Bar Graph": Provide 'categories' (e.g. 4-6 labels like ["2021", "2022", "2023", "2024"]) and 'series' array with 1-2 data series containing numerical values.
+- If chartType is "Pie Chart": Provide 'slices' array with labels, numerical values, and percentages summing to 100%.
+- If chartType is "Line Graph": Provide 'categories' (time/periods) and 'series' array with numerical values showing trends over time.
+- If chartType is "Table": Provide 'headers' array and 4-6 'rows' of data strings/numbers.
+- If chartType is "Flow Chart": Provide 'flowSteps' array with 4-6 connected process nodes (step, title, description, type).
+- If chartType is "Infographic": Provide 'infographicNodes' array with 4 key metrics/stats cards.
+- If chartType is "Mixed Data Set": Provide BOTH 'categories' + 'series' (or 'slices') AND a table ('headers' + 'rows').
+
+DIRECTIVES FOR QUESTIONS:
+- Formulate 5-7 questions testing specific skills requested: ${questionFocuses.join(", ")}.
+- Include questions testing:
+  1. Data reading (direct retrieval of values)
+  2. Comparison (highest/lowest, differences)
+  3. Percentages & Ratios (percentage change, ratios between categories)
+  4. Trends & Inference (future predictions, conclusions based on facts)
+  5. Logical reasoning (evaluating claims based on data)
+- For 'mcq' questions, provide 4 options starting with letter keys e.g. "A) ...", "B) ...".
+- In 'explanation', show step-by-step mathematical calculations or reasoning breakdown.`;
+
+    const response = await generateContentWithRetryAndFallback(ai, {
+      contents: `Generate a Data Interpretation set of type "${chartType}". Grade: "${academicLevel}". Difficulty: "${difficulty}". Language: "${language}". Board: "${board}". Return JSON conforming strictly to schema.`,
+      config: {
+        systemInstruction: systemPrompt,
+        temperature: 0.7,
+        responseMimeType: "application/json",
+        responseSchema: dataInterpretationSchema
+      }
+    });
+
+    if (!response.text) {
+      throw new Error("No response received from Gemini.");
+    }
+
+    const data = JSON.parse(response.text.trim());
+    data.id = "di_" + Date.now();
+    data.timestamp = new Date().toISOString();
+    res.json(data);
+  } catch (error: any) {
+    console.error("Data Interpretation Generation Error:", error);
+    res.status(500).json({ error: error.message || "Failed to generate Data Interpretation set." });
+  }
+});
 const passageResponseSchema = {
   type: Type.OBJECT,
   properties: {
@@ -196,6 +383,7 @@ Ensure the output complies with:
 - Difficulty Level: ${difficulty} (Adjust vocabulary difficulty, sentence structure complexity, passage depth, and inference-demand of questions accordingly).
 - Topic: ${topic}
 - Passage Type/Genre: ${passageType}
+${passageType === "Data Interpretation" ? `- SPECIAL INSTRUCTION FOR DATA INTERPRETATION: You are generating a Data Interpretation assessment. The 'passage' text MUST include structured data tables, bar representations, numerical datasets, or data matrices formatted neatly in Markdown/ASCII tables and charts. The questions MUST directly test data reading, percentages, ratios, trend analysis, comparisons, and logical reasoning based on the provided dataset.` : ""}
 - ${lengthInstructions}
 - Vocabulary Target: ${vocabularyLevel}
 - Grammar focuses to include in grammar questions: ${grammarOptions.join(", ") || "General grade-level grammar"}

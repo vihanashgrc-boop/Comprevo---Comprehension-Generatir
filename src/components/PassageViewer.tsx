@@ -42,7 +42,7 @@ export default function PassageViewer({
   // Reading Assistant Chat State
   const [assistantOpen, setAssistantOpen] = useState(false);
   const [chatMessages, setChatMessages] = useState<Array<{ sender: "user" | "tutor"; text: string }>>([
-    { sender: "tutor", text: "Hello! I am your Reading Coach. If you are stuck on a difficult sentence, want a word defined, or need help understanding a paragraph, ask me here. I'm happy to help you learn!" }
+    { sender: "tutor", text: "Hello! I am your Reading Assistant. If you need help understanding a word, a sentence, or a paragraph, ask me here!" }
   ]);
   const [chatInput, setChatInput] = useState("");
   const [loadingAssistant, setLoadingAssistant] = useState(false);
@@ -410,7 +410,7 @@ export default function PassageViewer({
               className="px-2.5 py-1.5 text-[10px] font-bold rounded-md border border-zinc-200 bg-white hover:bg-zinc-100 text-zinc-750 transition disabled:opacity-50 dark:border-zinc-750 dark:bg-zinc-800 dark:text-zinc-350 dark:hover:bg-zinc-700 cursor-pointer flex items-center space-x-1"
             >
               <Sparkles className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
-              <span>Enrich Vocab</span>
+              <span>Better Vocab</span>
             </button>
 
             <button
@@ -437,7 +437,7 @@ export default function PassageViewer({
               className="px-2.5 py-1.5 text-[10px] font-bold rounded-md border border-zinc-200 bg-white hover:bg-zinc-100 text-zinc-700 transition disabled:opacity-50 dark:border-zinc-750 dark:bg-zinc-800 dark:text-zinc-350 dark:hover:bg-zinc-700 cursor-pointer flex items-center space-x-1"
             >
               <RefreshCw className="h-3 w-3 text-zinc-500" />
-              <span>Reset Questions</span>
+              <span>New Questions</span>
             </button>
           </div>
 

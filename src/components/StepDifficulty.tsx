@@ -72,15 +72,15 @@ export default function StepDifficulty({ selected, onChange, onNext, onPrev }: S
       <div className="flex items-center justify-between border-b border-zinc-200/60 dark:border-zinc-800/60 pb-5">
         <div className="flex items-center space-x-2">
           <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">
-            Phase 01-02
+            Steps 1-2
           </span>
           <span className="text-zinc-300 dark:text-zinc-600">→</span>
           <span className="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 tracking-widest uppercase">
-            Phase 03 / 04
+            Step 3 of 4
           </span>
           <span className="text-zinc-300 dark:text-zinc-700">•</span>
           <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">
-            Complexity Calibration
+            Difficulty Level
           </span>
         </div>
         <div className="flex space-x-1">
@@ -94,10 +94,10 @@ export default function StepDifficulty({ selected, onChange, onNext, onPrev }: S
       {/* Editorial Header */}
       <div className="space-y-2 text-left md:text-center md:max-w-2xl md:mx-auto">
         <h3 className="font-display text-3xl md:text-4xl font-bold tracking-tight text-zinc-900 dark:text-white">
-          Reading Complexity
+          Choose Difficulty Level
         </h3>
         <p className="text-xs md:text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
-          Select target reading complexity. This fine-tunes sentence structures, lexical sophistication, and cognitive inquiry depth of the assessment.
+          Choose how challenging you want the reading passage and questions to be.
         </p>
       </div>
 
