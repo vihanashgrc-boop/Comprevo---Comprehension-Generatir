@@ -893,10 +893,11 @@ export default function WorksheetSolver({
         <div className="flex items-center space-x-2.5">
           <button
             onClick={() => setShowExitConfirm(true)}
-            className="p-1.5 hover:bg-zinc-150 rounded-lg dark:hover:bg-zinc-850 text-zinc-500 transition cursor-pointer"
+            className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-100 text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 text-xs font-semibold transition cursor-pointer"
             title="Save draft and exit"
           >
             <ArrowLeft className="h-4 w-4" />
+            <span>Back</span>
           </button>
           <div className="space-y-0.5">
             <div className="flex items-center space-x-2">

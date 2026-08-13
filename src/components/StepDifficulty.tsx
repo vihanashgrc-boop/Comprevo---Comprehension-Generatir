@@ -70,7 +70,15 @@ export default function StepDifficulty({ selected, onChange, onNext, onPrev }: S
     <div className="space-y-8 max-w-4xl mx-auto py-4" id="step-difficulty-container">
       {/* Progress timeline */}
       <div className="flex items-center justify-between border-b border-zinc-200/60 dark:border-zinc-800/60 pb-5">
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-3">
+          <button
+            onClick={onPrev}
+            className="inline-flex items-center space-x-1 text-xs text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-white transition cursor-pointer font-medium"
+          >
+            <ArrowLeft className="h-3.5 w-3.5" />
+            <span>Back</span>
+          </button>
+          <span className="text-zinc-300 dark:text-zinc-700">•</span>
           <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">
             Steps 1-2
           </span>

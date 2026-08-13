@@ -454,6 +454,7 @@ export default function App() {
             <StepBoard
               selected={board}
               onChange={handleBoardChange}
+              onPrev={() => setStep("dashboard")}
               onNext={() => setStep("step_class")}
             />
           )}
@@ -511,6 +512,19 @@ export default function App() {
                 <p className="text-[10px] text-zinc-400 leading-relaxed font-sans">
                   We are custom-building your reading passage and matching practice questions.
                 </p>
+
+                <div className="pt-2">
+                  <button
+                    onClick={() => {
+                      setGenerationLoading(false);
+                      setStep("step_configure");
+                    }}
+                    className="inline-flex items-center space-x-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-zinc-200 bg-white hover:bg-zinc-100 text-zinc-650 transition dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 cursor-pointer"
+                  >
+                    <ArrowLeft className="h-3.5 w-3.5" />
+                    <span>Cancel & Back</span>
+                  </button>
+                </div>
               </div>
 
               {/* Skeleton placeholder preview */}

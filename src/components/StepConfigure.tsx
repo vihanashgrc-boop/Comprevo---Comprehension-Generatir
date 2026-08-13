@@ -266,17 +266,26 @@ export default function StepConfigure({
     <form onSubmit={handleFormSubmit} className="space-y-8 max-w-5xl mx-auto py-4" id="configure-form">
       {/* Progress timeline */}
       <div className="flex items-center justify-between border-b border-zinc-200/60 dark:border-zinc-800/60 pb-5">
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-3">
+          <button
+            type="button"
+            onClick={onPrev}
+            className="inline-flex items-center space-x-1 text-xs text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-white transition cursor-pointer font-medium"
+          >
+            <ArrowLeft className="h-3.5 w-3.5" />
+            <span>Back</span>
+          </button>
+          <span className="text-zinc-300 dark:text-zinc-700">•</span>
           <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">
-            Phase 01-03
+            Steps 1-3
           </span>
           <span className="text-zinc-300 dark:text-zinc-600">→</span>
           <span className="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 tracking-widest uppercase">
-            Phase 04 / 04
+            Step 4 of 4
           </span>
           <span className="text-zinc-300 dark:text-zinc-700">•</span>
           <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">
-            Detailed Configuration
+            Worksheet Settings
           </span>
         </div>
         <div className="flex space-x-1">
