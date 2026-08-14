@@ -11,6 +11,7 @@ import StepConfigure from "./components/StepConfigure";
 import PassageViewer from "./components/PassageViewer";
 import WorksheetSolver from "./components/WorksheetSolver";
 import DataInterpretationModule from "./components/DataInterpretationModule";
+import ComprehensionGeneratorLanding from "./components/ComprehensionGeneratorLanding";
 import PrivacyModal from "./components/PrivacyModal";
 import { Sparkles, Compass, AlertCircle, BookOpen, Clock, Activity, RefreshCw, ArrowLeft } from "lucide-react";
 
@@ -23,9 +24,19 @@ export default function App() {
   const [showProfileSettings, setShowProfileSettings] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
 
+  // Helper to determine initial step from URL path
+  const getStepFromPath = (): string => {
+    if (typeof window === "undefined") return "dashboard";
+    const path = window.location.pathname.toLowerCase().replace(/\/$/, "");
+    if (path === "/comprehension-generator") return "comprehension_generator";
+    if (path === "/data-interpretation") return "data_interpretation";
+    if (path === "/generator") return "step_board";
+    return "dashboard";
+  };
+
   // Funnel Navigation Step State
-  // 'dashboard' | 'auth' | 'step_board' | 'step_class' | 'step_difficulty' | 'step_configure' | 'generating' | 'viewer'
-  const [step, setStep] = useState<string>("dashboard");
+  // 'dashboard' | 'auth' | 'step_board' | 'step_class' | 'step_difficulty' | 'step_configure' | 'generating' | 'viewer' | 'data_interpretation' | 'comprehension_generator'
+  const [step, setStep] = useState<string>(() => getStepFromPath());
 
   // Selection configurations
   const [board, setBoard] = useState<BoardType>(() => {
@@ -71,6 +82,25 @@ export default function App() {
     "Polishing the final workbook workspace..."
   ];
 
+  // Route Synchronization Helper
+  const navigateTo = (targetStep: string, urlPath: string) => {
+    setStep(targetStep);
+    if (window.location.pathname !== urlPath) {
+      window.history.pushState({}, "", urlPath);
+    }
+  };
+
+  // Listen to browser forward/back buttons
+  useEffect(() => {
+    const handlePopState = () => {
+      const targetStep = getStepFromPath();
+      setStep(targetStep);
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
   // Initialize Session
   useEffect(() => {
     // Sync Theme
@@ -84,6 +114,8 @@ export default function App() {
 
     // Sync User Profile / Create Default Student Profile
     const storedUser = localStorage.getItem("passage_user_session");
+    const initialRouteStep = getStepFromPath();
+
     if (storedUser) {
       try {
         let parsed = JSON.parse(storedUser);
@@ -109,7 +141,7 @@ export default function App() {
         if (parsed.selectedBoard) setBoard(parsed.selectedBoard);
         setAcademicLevel(parsed.selectedLevel);
         localStorage.setItem("passage_user_session", JSON.stringify(parsed));
-        setStep("dashboard");
+        setStep(initialRouteStep);
       } catch (err) {
         setStep("auth");
       }
@@ -134,7 +166,7 @@ export default function App() {
       setBoard("National Standard");
       setAcademicLevel("");
       localStorage.setItem("passage_user_session", JSON.stringify(defaultStudent));
-      setStep("dashboard");
+      setStep(initialRouteStep);
     }
   }, []);
 
@@ -380,7 +412,9 @@ export default function App() {
       <Header
         user={user}
         onLogout={handleLogout}
-        onNavigateHome={() => setStep("dashboard")}
+        onNavigateHome={() => navigateTo("dashboard", "/")}
+        onNavigateComprehensionGenerator={() => navigateTo("comprehension_generator", "/comprehension-generator")}
+        onNavigateDataInterpretation={() => navigateTo("data_interpretation", "/data-interpretation")}
         theme={theme}
         onToggleTheme={handleToggleTheme}
         onOpenProfile={() => setShowProfileSettings(true)}
@@ -423,17 +457,27 @@ export default function App() {
             <AuthScreen onAuthSuccess={handleAuthSuccess} />
           )}
 
+          {/* STEP: COMPREHENSION GENERATOR LANDING PAGE */}
+          {step === "comprehension_generator" && (
+            <ComprehensionGeneratorLanding
+              onStartGenerator={() => navigateTo("step_board", "/generator")}
+              onOpenDataInterpretation={() => navigateTo("data_interpretation", "/data-interpretation")}
+              onNavigateHome={() => navigateTo("dashboard", "/")}
+            />
+          )}
+
           {/* STEP: DASHBOARD */}
           {step === "dashboard" && user && (
             <Dashboard
               user={user}
-              onStartFunnel={() => setStep("step_board")}
+              onStartFunnel={() => navigateTo("step_board", "/generator")}
               onSelectPassage={(p) => {
                 setActivePassage(p);
                 setStep("viewer");
               }}
               onRemoveFavorite={handleToggleFavorite}
-              onOpenDataInterpretation={() => setStep("data_interpretation")}
+              onOpenDataInterpretation={() => navigateTo("data_interpretation", "/data-interpretation")}
+              onOpenComprehensionGenerator={() => navigateTo("comprehension_generator", "/comprehension-generator")}
             />
           )}
 
@@ -444,7 +488,7 @@ export default function App() {
               board={board}
               academicLevel={academicLevel || "Class 8"}
               difficulty={difficulty}
-              onBackToDashboard={() => setStep("dashboard")}
+              onBackToDashboard={() => navigateTo("dashboard", "/")}
               onWorksheetCompleted={handleDataWorksheetCompleted}
             />
           )}
@@ -454,7 +498,7 @@ export default function App() {
             <StepBoard
               selected={board}
               onChange={handleBoardChange}
-              onPrev={() => setStep("dashboard")}
+              onPrev={() => navigateTo("dashboard", "/")}
               onNext={() => setStep("step_class")}
             />
           )}
@@ -571,12 +615,33 @@ export default function App() {
       </main>
 
       {/* Premium minimal footer */}
-      <footer className="mt-auto py-8 text-center border-t border-zinc-150 dark:border-zinc-800/50 mt-12 px-4">
+      <footer className="mt-auto py-8 border-t border-zinc-150 dark:border-zinc-800/50 mt-12 px-4">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-zinc-400 dark:text-zinc-550 font-sans">
           <div>
             &copy; 2026 <span className="font-bold tracking-tight text-zinc-700 dark:text-zinc-300">COMPREVO</span>. All rights reserved.
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+            <button
+              onClick={() => navigateTo("dashboard", "/")}
+              className="hover:text-emerald-600 dark:hover:text-emerald-400 font-medium transition cursor-pointer"
+            >
+              Home
+            </button>
+            <span>&bull;</span>
+            <button
+              onClick={() => navigateTo("comprehension_generator", "/comprehension-generator")}
+              className="hover:text-emerald-600 dark:hover:text-emerald-400 font-medium transition cursor-pointer"
+            >
+              AI Comprehension Generator
+            </button>
+            <span>&bull;</span>
+            <button
+              onClick={() => navigateTo("data_interpretation", "/data-interpretation")}
+              className="hover:text-emerald-600 dark:hover:text-emerald-400 font-medium transition cursor-pointer"
+            >
+              Data Interpretation
+            </button>
+            <span>&bull;</span>
             <button
               onClick={() => setShowPrivacy(true)}
               className="hover:text-emerald-600 dark:hover:text-emerald-400 font-medium transition cursor-pointer"

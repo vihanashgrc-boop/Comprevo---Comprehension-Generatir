@@ -14,6 +14,7 @@ interface DashboardProps {
   onSelectPassage: (passage: GeneratedPassage) => void;
   onRemoveFavorite: (id: string) => void;
   onOpenDataInterpretation: () => void;
+  onOpenComprehensionGenerator?: () => void;
 }
 
 export default function Dashboard({
@@ -22,6 +23,7 @@ export default function Dashboard({
   onSelectPassage,
   onRemoveFavorite,
   onOpenDataInterpretation,
+  onOpenComprehensionGenerator,
 }: DashboardProps) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 

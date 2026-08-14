@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Library, Moon, Sun, Award, Flame, User, LogOut, Compass, Sparkles } from "lucide-react";
+import { Library, Moon, Sun, Award, Flame, User, LogOut, Compass, Sparkles, TrendingUp, BookOpen } from "lucide-react";
 import { UserProfile } from "../types";
 // @ts-expect-error - dynamic generated asset
 import logoUrl from "../assets/images/comprevo_logo_1782735993282.jpg";
@@ -8,6 +8,8 @@ interface HeaderProps {
   user: UserProfile | null;
   onLogout: () => void;
   onNavigateHome: () => void;
+  onNavigateComprehensionGenerator?: () => void;
+  onNavigateDataInterpretation?: () => void;
   theme: "light" | "dark";
   onToggleTheme: () => void;
   onOpenProfile: () => void;
@@ -17,6 +19,8 @@ export default function Header({
   user,
   onLogout,
   onNavigateHome,
+  onNavigateComprehensionGenerator,
+  onNavigateDataInterpretation,
   theme,
   onToggleTheme,
   onOpenProfile,
@@ -49,6 +53,34 @@ export default function Header({
             </div>
           </div>
         </div>
+
+        {/* Center Navigation Links for Desktop */}
+        <nav aria-label="Main navigation" className="hidden md:flex items-center space-x-1 text-xs">
+          <button
+            onClick={onNavigateHome}
+            className="px-3 py-1.5 rounded-lg font-medium text-zinc-650 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-350 dark:hover:text-white dark:hover:bg-zinc-900 transition cursor-pointer"
+          >
+            Dashboard
+          </button>
+          {onNavigateComprehensionGenerator && (
+            <button
+              onClick={onNavigateComprehensionGenerator}
+              className="px-3 py-1.5 rounded-lg font-medium text-zinc-650 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-350 dark:hover:text-white dark:hover:bg-zinc-900 transition cursor-pointer flex items-center space-x-1.5"
+            >
+              <Sparkles className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+              <span>AI Generator</span>
+            </button>
+          )}
+          {onNavigateDataInterpretation && (
+            <button
+              onClick={onNavigateDataInterpretation}
+              className="px-3 py-1.5 rounded-lg font-medium text-zinc-650 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-350 dark:hover:text-white dark:hover:bg-zinc-900 transition cursor-pointer flex items-center space-x-1.5"
+            >
+              <TrendingUp className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+              <span>Data Practice</span>
+            </button>
+          )}
+        </nav>
 
         {/* Right Action Bar */}
         <div className="flex items-center space-x-3">
@@ -109,13 +141,13 @@ export default function Header({
                     className="fixed inset-0 z-30" 
                     onClick={() => setShowDropdown(false)}
                   />
-                  <div className="absolute right-0 mt-2 w-52 origin-top-right rounded-lg border border-zinc-200 bg-white p-1 shadow-md focus:outline-none z-40 dark:border-zinc-800 dark:bg-zinc-900">
+                  <div className="absolute right-0 mt-2 w-56 origin-top-right rounded-lg border border-zinc-200 bg-white p-1 shadow-md focus:outline-none z-40 dark:border-zinc-800 dark:bg-zinc-900">
                     <div className="px-3.5 py-2.5 border-b border-zinc-100 dark:border-zinc-800">
                       <p className="text-[9px] font-mono text-zinc-400">STUDENT PROFILE</p>
                       <p className="truncate text-xs font-semibold text-zinc-800 dark:text-zinc-100">{user.email}</p>
                     </div>
 
-                    <div className="p-1">
+                    <div className="p-1 space-y-0.5">
                       <button
                         onClick={() => {
                           onOpenProfile();
@@ -137,6 +169,32 @@ export default function Header({
                         <Library className="h-3.5 w-3.5 text-emerald-600" />
                         <span>My Worksheets</span>
                       </button>
+
+                      {onNavigateComprehensionGenerator && (
+                        <button
+                          onClick={() => {
+                            onNavigateComprehensionGenerator();
+                            setShowDropdown(false);
+                          }}
+                          className="flex w-full items-center space-x-2 rounded-md px-2.5 py-1.5 text-left text-xs text-zinc-600 transition hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-800 cursor-pointer"
+                        >
+                          <Sparkles className="h-3.5 w-3.5 text-emerald-600" />
+                          <span>AI Comprehension Guide</span>
+                        </button>
+                      )}
+
+                      {onNavigateDataInterpretation && (
+                        <button
+                          onClick={() => {
+                            onNavigateDataInterpretation();
+                            setShowDropdown(false);
+                          }}
+                          className="flex w-full items-center space-x-2 rounded-md px-2.5 py-1.5 text-left text-xs text-zinc-600 transition hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-800 cursor-pointer"
+                        >
+                          <TrendingUp className="h-3.5 w-3.5 text-emerald-600" />
+                          <span>Data Interpretation</span>
+                        </button>
+                      )}
 
                       <hr className="my-1 border-zinc-100 dark:border-zinc-800" />
 
