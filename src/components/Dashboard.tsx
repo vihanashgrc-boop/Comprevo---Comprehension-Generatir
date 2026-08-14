@@ -647,7 +647,127 @@ export default function Dashboard({
         </div>
       </section>
 
-      {/* 9. FINAL CALL TO ACTION */}
+      {/* 9. POPULAR AI TOOLS */}
+      <section aria-labelledby="popular-ai-tools-heading" className="rounded-xl border border-zinc-200 bg-white p-6 sm:p-8 dark:border-zinc-800 dark:bg-zinc-900 space-y-6">
+        <div className="border-b border-zinc-100 pb-3 dark:border-zinc-800 flex items-center justify-between">
+          <div>
+            <span className="text-[9px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest block">
+              Featured Education Suite
+            </span>
+            <h2 id="popular-ai-tools-heading" className="font-display text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white">
+              Popular AI Tools
+            </h2>
+          </div>
+          <span className="hidden sm:inline-flex items-center space-x-1 text-xs font-mono text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800/40 px-2.5 py-1 rounded-full">
+            <Sparkles className="h-3 w-3" />
+            <span>100% Free</span>
+          </span>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-2">
+          {/* Card 1: Free AI Comprehension Generator */}
+          <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-gradient-to-br from-emerald-50/40 via-white to-zinc-50/60 dark:from-zinc-900 dark:via-zinc-850 dark:to-zinc-900 p-6 flex flex-col justify-between space-y-5 hover:border-emerald-300 dark:hover:border-emerald-700/60 transition shadow-sm">
+            <div className="space-y-3.5">
+              <div className="flex items-center justify-between">
+                <div className="h-11 w-11 rounded-xl bg-emerald-100 dark:bg-emerald-950/80 border border-emerald-200/60 dark:border-emerald-800/60 flex items-center justify-center text-emerald-700 dark:text-emerald-300">
+                  <BookOpen className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                </div>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-300 bg-emerald-100/70 dark:bg-emerald-950/60 px-2.5 py-0.5 rounded-full">
+                  Grades 6–10
+                </span>
+              </div>
+
+              <div className="space-y-1.5">
+                <h3 className="font-display text-lg font-bold text-zinc-900 dark:text-white">
+                  Free AI Comprehension Generator
+                </h3>
+                <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-350 leading-relaxed font-sans">
+                  Generate high-quality reading comprehension passages and questions in seconds for students and teachers.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-1.5 pt-1 text-[11px] text-zinc-500 dark:text-zinc-400">
+                <span className="inline-flex items-center space-x-1 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-2.5 py-0.5 rounded-md">
+                  <Check className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
+                  <span>CBSE, ICSE, Cambridge &amp; IB</span>
+                </span>
+                <span className="inline-flex items-center space-x-1 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-2.5 py-0.5 rounded-md">
+                  <Check className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
+                  <span>MCQs &amp; Short Answers</span>
+                </span>
+                <span className="inline-flex items-center space-x-1 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-2.5 py-0.5 rounded-md">
+                  <Check className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
+                  <span>Printable Worksheets</span>
+                </span>
+              </div>
+            </div>
+
+            <div className="pt-2">
+              <button
+                onClick={onOpenComprehensionGenerator}
+                className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm px-5 py-3 transition cursor-pointer shadow-sm hover:shadow active:scale-[0.99]"
+                id="btn-open-comprehension-generator-tool"
+                aria-label="Open Tool: Free AI Comprehension Generator"
+              >
+                <span>Open Tool</span>
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+
+          {/* Card 2: Data Interpretation & Chart Analysis */}
+          <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-gradient-to-br from-teal-50/40 via-white to-zinc-50/60 dark:from-zinc-900 dark:via-zinc-850 dark:to-zinc-900 p-6 flex flex-col justify-between space-y-5 hover:border-teal-300 dark:hover:border-teal-700/60 transition shadow-sm">
+            <div className="space-y-3.5">
+              <div className="flex items-center justify-between">
+                <div className="h-11 w-11 rounded-xl bg-teal-100 dark:bg-teal-950/80 border border-teal-200/60 dark:border-teal-800/60 flex items-center justify-center text-teal-700 dark:text-teal-300">
+                  <TrendingUp className="h-5 w-5 text-teal-600 dark:text-teal-400" />
+                </div>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-teal-800 dark:text-teal-300 bg-teal-100/70 dark:bg-teal-950/60 px-2.5 py-0.5 rounded-full">
+                  Visual Data Literacy
+                </span>
+              </div>
+
+              <div className="space-y-1.5">
+                <h3 className="font-display text-lg font-bold text-zinc-900 dark:text-white">
+                  Data Interpretation Generator
+                </h3>
+                <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-350 leading-relaxed font-sans">
+                  Create analytical passages with interactive bar charts, data tables, and quantitative reasoning questions.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-1.5 pt-1 text-[11px] text-zinc-500 dark:text-zinc-400">
+                <span className="inline-flex items-center space-x-1 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-2.5 py-0.5 rounded-md">
+                  <Check className="h-3 w-3 text-teal-600 dark:text-teal-400" />
+                  <span>Bar Charts &amp; Data Tables</span>
+                </span>
+                <span className="inline-flex items-center space-x-1 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-2.5 py-0.5 rounded-md">
+                  <Check className="h-3 w-3 text-teal-600 dark:text-teal-400" />
+                  <span>Competitive Exam Prep</span>
+                </span>
+                <span className="inline-flex items-center space-x-1 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-2.5 py-0.5 rounded-md">
+                  <Check className="h-3 w-3 text-teal-600 dark:text-teal-400" />
+                  <span>Automated AI Scoring</span>
+                </span>
+              </div>
+            </div>
+
+            <div className="pt-2">
+              <button
+                onClick={onOpenDataInterpretation}
+                className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 rounded-xl border border-zinc-300 bg-white hover:bg-zinc-50 text-zinc-800 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:bg-zinc-750 dark:text-zinc-100 font-semibold text-xs sm:text-sm px-5 py-3 transition cursor-pointer shadow-sm hover:shadow"
+                id="btn-open-data-interpretation-tool"
+                aria-label="Open Tool: Data Interpretation Generator"
+              >
+                <span>Open Tool</span>
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 10. FINAL CALL TO ACTION */}
       <section aria-labelledby="final-cta-heading" className="rounded-2xl border border-emerald-200 bg-gradient-to-r from-emerald-600 to-teal-700 p-8 text-white text-center space-y-4 shadow-md">
         <h2 id="final-cta-heading" className="font-display text-2xl md:text-3xl font-extrabold text-white tracking-tight">
           Ready to Create Your Free Comprehension Worksheet?
