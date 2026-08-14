@@ -567,6 +567,7 @@ export default function App() {
               difficulty={difficulty}
               onPrev={() => setStep("step_difficulty")}
               onSubmit={handleGeneratePassage}
+              errorText={errorText}
             />
           )}
 

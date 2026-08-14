@@ -5,7 +5,7 @@ import {
 } from "../types";
 import { 
   ArrowLeft, ArrowRight, Settings, AlignLeft, Sparkles, BookOpen, 
-  CheckSquare, HelpCircle, Languages, Activity, Check, Compass
+  CheckSquare, HelpCircle, Languages, Activity, Check, Compass, AlertCircle
 } from "lucide-react";
 
 interface StepConfigureProps {
@@ -14,6 +14,7 @@ interface StepConfigureProps {
   difficulty: DifficultyLevel;
   onSubmit: (config: any) => void;
   onPrev: () => void;
+  errorText?: string;
 }
 
 export default function StepConfigure({
@@ -22,6 +23,7 @@ export default function StepConfigure({
   difficulty,
   onSubmit,
   onPrev,
+  errorText,
 }: StepConfigureProps) {
   // Passage Topics
   const topics: PassageTopic[] = [
@@ -304,6 +306,13 @@ export default function StepConfigure({
         <p className="text-xs md:text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
           Choose your topic, reading style, question types, and grammar focus to create a personalized worksheet.
         </p>
+
+        {errorText && (
+          <div className="mt-3 p-3.5 rounded-lg bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800/60 text-rose-700 dark:text-rose-300 text-xs flex items-center gap-2.5 text-left">
+            <AlertCircle className="h-4 w-4 shrink-0 text-rose-500" />
+            <span>{errorText}</span>
+          </div>
+        )}
       </div>
 
       {/* Split Column Layout */}
