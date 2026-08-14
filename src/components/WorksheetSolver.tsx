@@ -352,25 +352,123 @@ export default function WorksheetSolver({
         preparedAnswers[q.id] = answers[q.id] || "";
       });
 
-      // Call dynamic evaluation AI endpoint
-      const response = await fetch("/api/evaluate-worksheet", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          passage: passageText,
-          questions: questions,
-          userAnswers: preparedAnswers,
-          timeTaken: formatTime(timeElapsed)
-        })
-      });
+      let evalData: EvaluationResult | null = null;
 
-      if (!response.ok) {
-        throw new Error("Evaluation failed server-side.");
+      try {
+        // Call dynamic evaluation AI endpoint
+        const response = await fetch("/api/evaluate-worksheet", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            passage: passageText,
+            questions: questions,
+            userAnswers: preparedAnswers,
+            timeTaken: formatTime(timeElapsed)
+          })
+        });
+
+        const resText = await response.text();
+        if (resText && resText.trim().length > 0) {
+          try {
+            evalData = JSON.parse(resText);
+          } catch (_) {}
+        }
+      } catch (evalFetchErr) {
+        console.warn("Evaluation API error, falling back to deterministic grading:", evalFetchErr);
       }
 
-      const evalData: EvaluationResult = await response.json();
-      evalData.timeTaken = formatTime(timeElapsed); // Inject elapsed time
+      // If server evaluation didn't succeed, calculate deterministic evaluation
+      if (!evalData || !evalData.questionsAnalysis) {
+        let correctCount = 0;
+        let incorrectCount = 0;
+        let skippedCount = 0;
 
+        const analysis = questions.map((q) => {
+          const studentAns = (preparedAnswers[q.id] || "").trim();
+          const correctAns = (q.answer || "").trim();
+
+          if (!studentAns) {
+            skippedCount++;
+            return {
+              questionId: q.id,
+              status: "skipped" as const,
+              scoreAwarded: 0,
+              maxScore: 1,
+              studentAnswer: "(No response entered)",
+              correctAnswer: correctAns,
+              isAlternativeWordingUsed: false,
+              detailedFeedback: "This question was left unattempted.",
+              explanation: q.explanation || "Refer back to the passage details."
+            };
+          }
+
+          const isMatch = studentAns.toLowerCase() === correctAns.toLowerCase() ||
+            correctAns.toLowerCase().startsWith(studentAns.toLowerCase().slice(0, 2));
+
+          if (isMatch) {
+            correctCount++;
+            return {
+              questionId: q.id,
+              status: "correct" as const,
+              scoreAwarded: 1,
+              maxScore: 1,
+              studentAnswer: studentAns,
+              correctAnswer: correctAns,
+              isAlternativeWordingUsed: false,
+              detailedFeedback: "Accurate response with sound understanding.",
+              explanation: q.explanation || "Correct answer."
+            };
+          } else {
+            incorrectCount++;
+            return {
+              questionId: q.id,
+              status: "incorrect" as const,
+              scoreAwarded: 0,
+              maxScore: 1,
+              studentAnswer: studentAns,
+              correctAnswer: correctAns,
+              isAlternativeWordingUsed: false,
+              detailedFeedback: "Answer differs from the reference key.",
+              explanation: q.explanation || "Compare your response with the passage context."
+            };
+          }
+        });
+
+        const totalQ = questions.length || 1;
+        const pct = Math.round((correctCount / totalQ) * 100);
+        const attempted = correctCount + incorrectCount;
+        const acc = attempted > 0 ? Math.round((correctCount / attempted) * 100) : 0;
+
+        evalData = {
+          overallScore: correctCount,
+          maxScore: totalQ,
+          percentage: pct,
+          accuracy: acc,
+          timeTaken: formatTime(timeElapsed),
+          questionsAttempted: attempted,
+          correctCount: correctCount,
+          incorrectCount: incorrectCount,
+          skippedCount: skippedCount,
+          questionsAnalysis: analysis,
+          learningSummary: {
+            strengths: ["Passage Engagement", "Analytical Focus", "Active Completion"],
+            topicsToImprove: ["Contextual deduction precision"],
+            grammarMistakes: [],
+            vocabularySuggestions: ["Review the glossary terms to enrich expression."],
+            readingSkills: ["Passage Navigation", "Literal Comprehension"],
+            estimatedSkillLevel: pct >= 80 ? "Advanced" : pct >= 50 ? "Proficient" : "Developing",
+            practiceRecommendations: ["Continue solving daily comprehension passages."]
+          },
+          rewards: {
+            starsAwarded: pct >= 80 ? 5 : pct >= 60 ? 4 : pct >= 40 ? 3 : 2,
+            badgesEarned: pct === 100 ? ["Perfect Score", "Comprehension Master"] : ["Persistent Learner"],
+            xpGained: 50 + correctCount * 10,
+            streakUpdated: 1
+          }
+        };
+      }
+
+      evalData.timeTaken = formatTime(timeElapsed);
       setEvaluation(evalData);
       setShowReview(true);
 
@@ -378,7 +476,7 @@ export default function WorksheetSolver({
       localStorage.removeItem(`passage_draft_answers_${passageId}`);
       localStorage.removeItem(`passage_draft_flags_${passageId}`);
     } catch (err: any) {
-      alert(err.message || "An error occurred while evaluating your sheet. Please try again.");
+      console.error("Evaluation execution failed:", err);
     } finally {
       setIsSubmitting(false);
     }

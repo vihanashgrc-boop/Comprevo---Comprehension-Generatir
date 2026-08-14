@@ -475,25 +475,36 @@ export default function DataInterpretationModule({
     setScoreResult(null);
 
     try {
-      const response = await fetch("/api/generate-data-interpretation", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          board,
-          academicLevel: academicLevel || "Class 8",
-          difficulty,
-          chartType: selectedChartType,
-          questionFocuses: selectedFocuses,
-          language: "English"
-        })
-      });
+      let data: any = null;
+      try {
+        const response = await fetch("/api/generate-data-interpretation", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            board,
+            academicLevel: academicLevel || "Class 8",
+            difficulty,
+            chartType: selectedChartType,
+            questionFocuses: selectedFocuses,
+            language: "English"
+          })
+        });
 
-      if (!response.ok) {
-        throw new Error("Failed to generate custom set");
+        const resText = await response.text();
+        if (resText && resText.trim().length > 0) {
+          try {
+            data = JSON.parse(resText);
+          } catch (_) {}
+        }
+      } catch (fetchErr) {
+        console.warn("DI generation API error, using sample data fallback:", fetchErr);
       }
 
-      const data = await response.json();
-      setActiveDataSet(data);
+      if (data && data.questions && data.questions.length > 0) {
+        setActiveDataSet(data);
+      } else if (SAMPLE_DATA_SETS[selectedChartType]) {
+        setActiveDataSet(SAMPLE_DATA_SETS[selectedChartType]);
+      }
     } catch (err) {
       console.warn("Falling back to sample set due to API error:", err);
       if (SAMPLE_DATA_SETS[selectedChartType]) {

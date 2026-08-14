@@ -77,46 +77,38 @@ async function generateContentWithRetryAndFallback(
     config: any;
   }
 ) {
-  // Use approved and active models only
+  if (!process.env.GEMINI_API_KEY) {
+    throw new Error("GEMINI_API_KEY is not configured.");
+  }
+
+  // Use primary and fallback models
   const modelsToTry = [
-    "gemini-3.7-flash",
     "gemini-2.5-flash",
-    "gemini-3.1-flash-lite",
-    "gemini-2.5-pro"
+    "gemini-3.7-flash",
+    "gemini-3.1-flash-lite"
   ];
   let lastError: any = null;
 
   for (const model of modelsToTry) {
-    const maxRetries = 2;
-    for (let attempt = 1; attempt <= maxRetries; attempt++) {
-      try {
-        console.log(`[Gemini] Attempting generation with model: ${model} (Attempt ${attempt}/${maxRetries})`);
-        const response = await ai.models.generateContent({
-          model: model,
-          contents: options.contents,
-          config: options.config,
-        });
+    try {
+      console.log(`[Gemini] Attempting generation with model: ${model}`);
+      const response = await ai.models.generateContent({
+        model: model,
+        contents: options.contents,
+        config: options.config,
+      });
 
-        if (response && response.text) {
-          console.log(`[Gemini] Generation succeeded with model: ${model}`);
-          return response;
-        }
-        throw new Error("Received empty response from Gemini.");
-      } catch (error: any) {
-        lastError = error;
-        console.error(`[Gemini] Error with model ${model} on attempt ${attempt}:`, error.message || error);
-        
-        // Wait a small amount of time before retrying
-        if (attempt < maxRetries) {
-          const delay = attempt * 800;
-          await new Promise((resolve) => setTimeout(resolve, delay));
-        }
+      if (response && response.text) {
+        console.log(`[Gemini] Generation succeeded with model: ${model}`);
+        return response;
       }
+    } catch (error: any) {
+      lastError = error;
+      console.warn(`[Gemini] Model ${model} failed: ${error.message || error}. Trying next model...`);
     }
-    console.warn(`[Gemini] Model ${model} failed after all retries. Falling back to next candidate...`);
   }
 
-  throw lastError || new Error("Failed to generate content after trying multiple models and retries.");
+  throw lastError || new Error("Failed to generate content after trying available models.");
 }
 
 // JSON Schema definition for data interpretation sets
