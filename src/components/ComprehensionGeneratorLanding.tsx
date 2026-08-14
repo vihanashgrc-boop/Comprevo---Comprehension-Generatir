@@ -12,6 +12,7 @@ interface ComprehensionGeneratorLandingProps {
   onOpenDataInterpretation: () => void;
   onNavigateHome: () => void;
   onOpenReadingComprehensionGenerator?: () => void;
+  onOpenClass8Comprehension?: () => void;
 }
 
 export default function ComprehensionGeneratorLanding({
@@ -19,6 +20,7 @@ export default function ComprehensionGeneratorLanding({
   onOpenDataInterpretation,
   onNavigateHome,
   onOpenReadingComprehensionGenerator,
+  onOpenClass8Comprehension,
 }: ComprehensionGeneratorLandingProps) {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
@@ -632,6 +634,11 @@ export default function ComprehensionGeneratorLanding({
               <li>
                 <button onClick={onOpenReadingComprehensionGenerator || onStartGenerator} className="hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline cursor-pointer">
                   Free Reading Comprehension Generator
+                </button>
+              </li>
+              <li>
+                <button onClick={onOpenClass8Comprehension || onStartGenerator} className="hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline cursor-pointer">
+                  Class 8 English Comprehension Passages
                 </button>
               </li>
               <li>

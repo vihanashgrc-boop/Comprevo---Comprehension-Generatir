@@ -21,6 +21,12 @@
     <priority>0.95</priority>
   </url>
   <url>
+    <loc>https://comprevo-comprehension-generator.vercel.app/class-8-comprehension</loc>
+    <lastmod>2026-08-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
     <loc>https://comprevo-comprehension-generator.vercel.app/generator</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>daily</changefreq>

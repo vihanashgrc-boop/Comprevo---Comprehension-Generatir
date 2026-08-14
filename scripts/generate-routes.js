@@ -30,6 +30,12 @@ const routes = [
     canonical: 'https://comprevo-comprehension-generator.vercel.app/reading-comprehension-generator'
   },
   {
+    path: 'class-8-comprehension',
+    title: 'Class 8 English Comprehension Passages with Questions | Comprevo',
+    description: 'Practice Class 8 English comprehension passages with questions and answers. Generate unlimited CBSE-style comprehension passages using Comprevo AI.',
+    canonical: 'https://comprevo-comprehension-generator.vercel.app/class-8-comprehension'
+  },
+  {
     path: 'data-interpretation',
     title: 'Free Data Interpretation & Chart Analysis Generator | Comprevo',
     description: 'Create analytical reading passages with interactive bar charts, data tables, flow charts, and quantitative reasoning questions for students.',

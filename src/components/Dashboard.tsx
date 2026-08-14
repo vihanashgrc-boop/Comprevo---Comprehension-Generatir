@@ -16,6 +16,7 @@ interface DashboardProps {
   onOpenDataInterpretation: () => void;
   onOpenComprehensionGenerator?: () => void;
   onOpenReadingComprehensionGenerator?: () => void;
+  onOpenClass8Comprehension?: () => void;
 }
 
 export default function Dashboard({
@@ -26,6 +27,7 @@ export default function Dashboard({
   onOpenDataInterpretation,
   onOpenComprehensionGenerator,
   onOpenReadingComprehensionGenerator,
+  onOpenClass8Comprehension,
 }: DashboardProps) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -850,6 +852,18 @@ export default function Dashboard({
                   className="text-zinc-600 hover:text-indigo-600 dark:text-zinc-400 dark:hover:text-indigo-400 transition"
                 >
                   Reading Comprehension Generator
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/class-8-comprehension"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (onOpenClass8Comprehension) onOpenClass8Comprehension();
+                  }}
+                  className="text-zinc-600 hover:text-emerald-600 dark:text-zinc-400 dark:hover:text-emerald-400 transition"
+                >
+                  Class 8 English Comprehension
                 </a>
               </li>
               <li>

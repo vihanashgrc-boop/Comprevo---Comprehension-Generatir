@@ -13,6 +13,7 @@ import WorksheetSolver from "./components/WorksheetSolver";
 import DataInterpretationModule from "./components/DataInterpretationModule";
 import ComprehensionGeneratorLanding from "./components/ComprehensionGeneratorLanding";
 import ReadingComprehensionGeneratorLanding from "./components/ReadingComprehensionGeneratorLanding";
+import Class8ComprehensionLanding from "./components/Class8ComprehensionLanding";
 import PrivacyModal from "./components/PrivacyModal";
 import { Sparkles, Compass, AlertCircle, BookOpen, Clock, Activity, RefreshCw, ArrowLeft } from "lucide-react";
 
@@ -31,13 +32,14 @@ export default function App() {
     const path = window.location.pathname.toLowerCase().replace(/\/$/, "");
     if (path === "/reading-comprehension-generator") return "reading_comprehension_generator";
     if (path === "/comprehension-generator") return "comprehension_generator";
+    if (path === "/class-8-comprehension") return "class_8_comprehension";
     if (path === "/data-interpretation") return "data_interpretation";
     if (path === "/generator") return "step_board";
     return "dashboard";
   };
 
   // Funnel Navigation Step State
-  // 'dashboard' | 'auth' | 'step_board' | 'step_class' | 'step_difficulty' | 'step_configure' | 'generating' | 'viewer' | 'data_interpretation' | 'comprehension_generator' | 'reading_comprehension_generator'
+  // 'dashboard' | 'auth' | 'step_board' | 'step_class' | 'step_difficulty' | 'step_configure' | 'generating' | 'viewer' | 'data_interpretation' | 'comprehension_generator' | 'reading_comprehension_generator' | 'class_8_comprehension'
   const [step, setStep] = useState<string>(() => getStepFromPath());
 
   // Selection configurations
@@ -417,6 +419,7 @@ export default function App() {
         onNavigateHome={() => navigateTo("dashboard", "/")}
         onNavigateComprehensionGenerator={() => navigateTo("comprehension_generator", "/comprehension-generator")}
         onNavigateReadingComprehensionGenerator={() => navigateTo("reading_comprehension_generator", "/reading-comprehension-generator")}
+        onNavigateClass8Comprehension={() => navigateTo("class_8_comprehension", "/class-8-comprehension")}
         onNavigateDataInterpretation={() => navigateTo("data_interpretation", "/data-interpretation")}
         theme={theme}
         onToggleTheme={handleToggleTheme}
@@ -465,6 +468,7 @@ export default function App() {
             <ComprehensionGeneratorLanding
               onStartGenerator={() => navigateTo("step_board", "/generator")}
               onOpenReadingComprehensionGenerator={() => navigateTo("reading_comprehension_generator", "/reading-comprehension-generator")}
+              onOpenClass8Comprehension={() => navigateTo("class_8_comprehension", "/class-8-comprehension")}
               onOpenDataInterpretation={() => navigateTo("data_interpretation", "/data-interpretation")}
               onNavigateHome={() => navigateTo("dashboard", "/")}
             />
@@ -475,6 +479,22 @@ export default function App() {
             <ReadingComprehensionGeneratorLanding
               onStartGenerator={() => navigateTo("step_board", "/generator")}
               onOpenComprehensionGenerator={() => navigateTo("comprehension_generator", "/comprehension-generator")}
+              onOpenClass8Comprehension={() => navigateTo("class_8_comprehension", "/class-8-comprehension")}
+              onOpenDataInterpretation={() => navigateTo("data_interpretation", "/data-interpretation")}
+              onNavigateHome={() => navigateTo("dashboard", "/")}
+            />
+          )}
+
+          {/* STEP: CLASS 8 ENGLISH COMPREHENSION LANDING PAGE */}
+          {step === "class_8_comprehension" && (
+            <Class8ComprehensionLanding
+              onStartGenerator={() => {
+                setBoard("National Standard");
+                setAcademicLevel("Class 8");
+                navigateTo("step_difficulty", "/generator");
+              }}
+              onOpenComprehensionGenerator={() => navigateTo("comprehension_generator", "/comprehension-generator")}
+              onOpenReadingComprehensionGenerator={() => navigateTo("reading_comprehension_generator", "/reading-comprehension-generator")}
               onOpenDataInterpretation={() => navigateTo("data_interpretation", "/data-interpretation")}
               onNavigateHome={() => navigateTo("dashboard", "/")}
             />
@@ -493,6 +513,7 @@ export default function App() {
               onOpenDataInterpretation={() => navigateTo("data_interpretation", "/data-interpretation")}
               onOpenComprehensionGenerator={() => navigateTo("comprehension_generator", "/comprehension-generator")}
               onOpenReadingComprehensionGenerator={() => navigateTo("reading_comprehension_generator", "/reading-comprehension-generator")}
+              onOpenClass8Comprehension={() => navigateTo("class_8_comprehension", "/class-8-comprehension")}
             />
           )}
 

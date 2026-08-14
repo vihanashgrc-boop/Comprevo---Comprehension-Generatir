@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Library, Moon, Sun, Award, Flame, User, LogOut, Compass, Sparkles, TrendingUp, BookOpen } from "lucide-react";
+import { Library, Moon, Sun, Award, Flame, User, LogOut, Compass, Sparkles, TrendingUp, BookOpen, GraduationCap } from "lucide-react";
 import { UserProfile } from "../types";
 // @ts-expect-error - dynamic generated asset
 import logoUrl from "../assets/images/comprevo_logo_1782735993282.jpg";
@@ -10,6 +10,7 @@ interface HeaderProps {
   onNavigateHome: () => void;
   onNavigateComprehensionGenerator?: () => void;
   onNavigateReadingComprehensionGenerator?: () => void;
+  onNavigateClass8Comprehension?: () => void;
   onNavigateDataInterpretation?: () => void;
   theme: "light" | "dark";
   onToggleTheme: () => void;
@@ -22,6 +23,7 @@ export default function Header({
   onNavigateHome,
   onNavigateComprehensionGenerator,
   onNavigateReadingComprehensionGenerator,
+  onNavigateClass8Comprehension,
   onNavigateDataInterpretation,
   theme,
   onToggleTheme,
@@ -80,6 +82,15 @@ export default function Header({
             >
               <BookOpen className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
               <span>Reading Generator</span>
+            </button>
+          )}
+          {onNavigateClass8Comprehension && (
+            <button
+              onClick={onNavigateClass8Comprehension}
+              className="px-3 py-1.5 rounded-lg font-medium text-zinc-650 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-350 dark:hover:text-white dark:hover:bg-zinc-900 transition cursor-pointer flex items-center space-x-1.5"
+            >
+              <GraduationCap className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+              <span>Class 8 English</span>
             </button>
           )}
           {onNavigateDataInterpretation && (
@@ -204,6 +215,19 @@ export default function Header({
                         >
                           <BookOpen className="h-3.5 w-3.5 text-indigo-600" />
                           <span>Reading Generator</span>
+                        </button>
+                      )}
+
+                      {onNavigateClass8Comprehension && (
+                        <button
+                          onClick={() => {
+                            onNavigateClass8Comprehension();
+                            setShowDropdown(false);
+                          }}
+                          className="flex w-full items-center space-x-2 rounded-md px-2.5 py-1.5 text-left text-xs text-zinc-600 transition hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-800 cursor-pointer"
+                        >
+                          <GraduationCap className="h-3.5 w-3.5 text-emerald-600" />
+                          <span>Class 8 English</span>
                         </button>
                       )}
 

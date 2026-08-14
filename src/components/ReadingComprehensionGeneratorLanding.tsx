@@ -10,6 +10,7 @@ import {
 interface ReadingComprehensionGeneratorLandingProps {
   onStartGenerator: () => void;
   onOpenComprehensionGenerator: () => void;
+  onOpenClass8Comprehension?: () => void;
   onOpenDataInterpretation: () => void;
   onNavigateHome: () => void;
 }
@@ -17,6 +18,7 @@ interface ReadingComprehensionGeneratorLandingProps {
 export default function ReadingComprehensionGeneratorLanding({
   onStartGenerator,
   onOpenComprehensionGenerator,
+  onOpenClass8Comprehension,
   onOpenDataInterpretation,
   onNavigateHome,
 }: ReadingComprehensionGeneratorLandingProps) {
@@ -606,8 +608,8 @@ export default function ReadingComprehensionGeneratorLanding({
                 </button>
               </li>
               <li>
-                <button onClick={onStartGenerator} className="hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline cursor-pointer">
-                  Grade 8 Literature &amp; Science Passages
+                <button onClick={onOpenClass8Comprehension || onStartGenerator} className="hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline cursor-pointer">
+                  Grade 8 Literature &amp; CBSE Passages
                 </button>
               </li>
               <li>
