@@ -12,6 +12,7 @@ import PassageViewer from "./components/PassageViewer";
 import WorksheetSolver from "./components/WorksheetSolver";
 import DataInterpretationModule from "./components/DataInterpretationModule";
 import ComprehensionGeneratorLanding from "./components/ComprehensionGeneratorLanding";
+import ReadingComprehensionGeneratorLanding from "./components/ReadingComprehensionGeneratorLanding";
 import PrivacyModal from "./components/PrivacyModal";
 import { Sparkles, Compass, AlertCircle, BookOpen, Clock, Activity, RefreshCw, ArrowLeft } from "lucide-react";
 
@@ -28,6 +29,7 @@ export default function App() {
   const getStepFromPath = (): string => {
     if (typeof window === "undefined") return "dashboard";
     const path = window.location.pathname.toLowerCase().replace(/\/$/, "");
+    if (path === "/reading-comprehension-generator") return "reading_comprehension_generator";
     if (path === "/comprehension-generator") return "comprehension_generator";
     if (path === "/data-interpretation") return "data_interpretation";
     if (path === "/generator") return "step_board";
@@ -35,7 +37,7 @@ export default function App() {
   };
 
   // Funnel Navigation Step State
-  // 'dashboard' | 'auth' | 'step_board' | 'step_class' | 'step_difficulty' | 'step_configure' | 'generating' | 'viewer' | 'data_interpretation' | 'comprehension_generator'
+  // 'dashboard' | 'auth' | 'step_board' | 'step_class' | 'step_difficulty' | 'step_configure' | 'generating' | 'viewer' | 'data_interpretation' | 'comprehension_generator' | 'reading_comprehension_generator'
   const [step, setStep] = useState<string>(() => getStepFromPath());
 
   // Selection configurations
@@ -414,6 +416,7 @@ export default function App() {
         onLogout={handleLogout}
         onNavigateHome={() => navigateTo("dashboard", "/")}
         onNavigateComprehensionGenerator={() => navigateTo("comprehension_generator", "/comprehension-generator")}
+        onNavigateReadingComprehensionGenerator={() => navigateTo("reading_comprehension_generator", "/reading-comprehension-generator")}
         onNavigateDataInterpretation={() => navigateTo("data_interpretation", "/data-interpretation")}
         theme={theme}
         onToggleTheme={handleToggleTheme}
@@ -461,6 +464,17 @@ export default function App() {
           {step === "comprehension_generator" && (
             <ComprehensionGeneratorLanding
               onStartGenerator={() => navigateTo("step_board", "/generator")}
+              onOpenReadingComprehensionGenerator={() => navigateTo("reading_comprehension_generator", "/reading-comprehension-generator")}
+              onOpenDataInterpretation={() => navigateTo("data_interpretation", "/data-interpretation")}
+              onNavigateHome={() => navigateTo("dashboard", "/")}
+            />
+          )}
+
+          {/* STEP: READING COMPREHENSION GENERATOR LANDING PAGE */}
+          {step === "reading_comprehension_generator" && (
+            <ReadingComprehensionGeneratorLanding
+              onStartGenerator={() => navigateTo("step_board", "/generator")}
+              onOpenComprehensionGenerator={() => navigateTo("comprehension_generator", "/comprehension-generator")}
               onOpenDataInterpretation={() => navigateTo("data_interpretation", "/data-interpretation")}
               onNavigateHome={() => navigateTo("dashboard", "/")}
             />
@@ -478,6 +492,7 @@ export default function App() {
               onRemoveFavorite={handleToggleFavorite}
               onOpenDataInterpretation={() => navigateTo("data_interpretation", "/data-interpretation")}
               onOpenComprehensionGenerator={() => navigateTo("comprehension_generator", "/comprehension-generator")}
+              onOpenReadingComprehensionGenerator={() => navigateTo("reading_comprehension_generator", "/reading-comprehension-generator")}
             />
           )}
 
@@ -626,6 +641,13 @@ export default function App() {
               className="hover:text-emerald-600 dark:hover:text-emerald-400 font-medium transition cursor-pointer"
             >
               Home
+            </button>
+            <span>&bull;</span>
+            <button
+              onClick={() => navigateTo("reading_comprehension_generator", "/reading-comprehension-generator")}
+              className="hover:text-emerald-600 dark:hover:text-emerald-400 font-medium transition cursor-pointer"
+            >
+              Reading Comprehension Generator
             </button>
             <span>&bull;</span>
             <button

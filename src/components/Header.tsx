@@ -9,6 +9,7 @@ interface HeaderProps {
   onLogout: () => void;
   onNavigateHome: () => void;
   onNavigateComprehensionGenerator?: () => void;
+  onNavigateReadingComprehensionGenerator?: () => void;
   onNavigateDataInterpretation?: () => void;
   theme: "light" | "dark";
   onToggleTheme: () => void;
@@ -20,6 +21,7 @@ export default function Header({
   onLogout,
   onNavigateHome,
   onNavigateComprehensionGenerator,
+  onNavigateReadingComprehensionGenerator,
   onNavigateDataInterpretation,
   theme,
   onToggleTheme,
