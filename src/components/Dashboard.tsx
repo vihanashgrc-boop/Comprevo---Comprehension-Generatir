@@ -657,7 +657,7 @@ export default function Dashboard({
               Featured Education Suite
             </span>
             <h2 id="popular-ai-tools-heading" className="font-display text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white">
-              Popular AI Tools
+              Popular AI Tools &amp; Specialized Generators
             </h2>
           </div>
           <span className="hidden sm:inline-flex items-center space-x-1 text-xs font-mono text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800/40 px-2.5 py-1 rounded-full">
@@ -666,58 +666,109 @@ export default function Dashboard({
           </span>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-3">
           {/* Card 1: Free AI Comprehension Generator */}
           <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-gradient-to-br from-emerald-50/40 via-white to-zinc-50/60 dark:from-zinc-900 dark:via-zinc-850 dark:to-zinc-900 p-6 flex flex-col justify-between space-y-5 hover:border-emerald-300 dark:hover:border-emerald-700/60 transition shadow-sm">
             <div className="space-y-3.5">
               <div className="flex items-center justify-between">
                 <div className="h-11 w-11 rounded-xl bg-emerald-100 dark:bg-emerald-950/80 border border-emerald-200/60 dark:border-emerald-800/60 flex items-center justify-center text-emerald-700 dark:text-emerald-300">
-                  <BookOpen className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                  <Sparkles className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
                 </div>
                 <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-300 bg-emerald-100/70 dark:bg-emerald-950/60 px-2.5 py-0.5 rounded-full">
-                  Grades 6–10
+                  AI Powered
                 </span>
               </div>
 
               <div className="space-y-1.5">
-                <h3 className="font-display text-lg font-bold text-zinc-900 dark:text-white">
+                <h3 className="font-display text-base sm:text-lg font-bold text-zinc-900 dark:text-white">
                   Free AI Comprehension Generator
                 </h3>
-                <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-350 leading-relaxed font-sans">
-                  Generate high-quality reading comprehension passages and questions in seconds for students and teachers.
+                <p className="text-xs text-zinc-600 dark:text-zinc-350 leading-relaxed font-sans">
+                  Generate high-quality reading comprehension passages, vocabulary lists, and questions with instant answer keys.
                 </p>
               </div>
 
               <div className="flex flex-wrap gap-1.5 pt-1 text-[11px] text-zinc-500 dark:text-zinc-400">
-                <span className="inline-flex items-center space-x-1 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-2.5 py-0.5 rounded-md">
+                <span className="inline-flex items-center space-x-1 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-2 py-0.5 rounded-md">
                   <Check className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
-                  <span>CBSE, ICSE, Cambridge &amp; IB</span>
+                  <span>CBSE &amp; ICSE</span>
                 </span>
-                <span className="inline-flex items-center space-x-1 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-2.5 py-0.5 rounded-md">
+                <span className="inline-flex items-center space-x-1 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-2 py-0.5 rounded-md">
                   <Check className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
-                  <span>MCQs &amp; Short Answers</span>
-                </span>
-                <span className="inline-flex items-center space-x-1 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-2.5 py-0.5 rounded-md">
-                  <Check className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
-                  <span>Printable Worksheets</span>
+                  <span>Answer Keys</span>
                 </span>
               </div>
             </div>
 
             <div className="pt-2">
-              <button
-                onClick={onOpenComprehensionGenerator}
-                className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm px-5 py-3 transition cursor-pointer shadow-sm hover:shadow active:scale-[0.99]"
+              <a
+                href="/comprehension-generator"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (onOpenComprehensionGenerator) onOpenComprehensionGenerator();
+                }}
+                className="w-full inline-flex items-center justify-center space-x-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm px-4 py-2.5 transition cursor-pointer shadow-sm hover:shadow active:scale-[0.99]"
                 id="btn-open-comprehension-generator-tool"
                 aria-label="Open Tool: Free AI Comprehension Generator"
               >
-                <span>Open Tool</span>
+                <span>Open AI Guide</span>
                 <ArrowRight className="h-4 w-4" />
-              </button>
+              </a>
             </div>
           </div>
 
-          {/* Card 2: Data Interpretation & Chart Analysis */}
+          {/* Card 2: Free Reading Comprehension Generator */}
+          <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-gradient-to-br from-indigo-50/40 via-white to-zinc-50/60 dark:from-zinc-900 dark:via-zinc-850 dark:to-zinc-900 p-6 flex flex-col justify-between space-y-5 hover:border-indigo-300 dark:hover:border-indigo-700/60 transition shadow-sm">
+            <div className="space-y-3.5">
+              <div className="flex items-center justify-between">
+                <div className="h-11 w-11 rounded-xl bg-indigo-100 dark:bg-indigo-950/80 border border-indigo-200/60 dark:border-indigo-800/60 flex items-center justify-center text-indigo-700 dark:text-indigo-300">
+                  <BookOpen className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+                </div>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-indigo-800 dark:text-indigo-300 bg-indigo-100/70 dark:bg-indigo-950/60 px-2.5 py-0.5 rounded-full">
+                  Grades 6–10
+                </span>
+              </div>
+
+              <div className="space-y-1.5">
+                <h3 className="font-display text-base sm:text-lg font-bold text-zinc-900 dark:text-white">
+                  Reading Comprehension Generator
+                </h3>
+                <p className="text-xs text-zinc-600 dark:text-zinc-350 leading-relaxed font-sans">
+                  Create leveled reading passages with multi-tier difficulty, question variety, and printable worksheets.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-1.5 pt-1 text-[11px] text-zinc-500 dark:text-zinc-400">
+                <span className="inline-flex items-center space-x-1 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-2 py-0.5 rounded-md">
+                  <Check className="h-3 w-3 text-indigo-600 dark:text-indigo-400" />
+                  <span>3-Tier Difficulty</span>
+                </span>
+                <span className="inline-flex items-center space-x-1 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-2 py-0.5 rounded-md">
+                  <Check className="h-3 w-3 text-indigo-600 dark:text-indigo-400" />
+                  <span>Printable PDF</span>
+                </span>
+              </div>
+            </div>
+
+            <div className="pt-2">
+              <a
+                href="/reading-comprehension-generator"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (onOpenReadingComprehensionGenerator) onOpenReadingComprehensionGenerator();
+                  else if (onOpenComprehensionGenerator) onOpenComprehensionGenerator();
+                }}
+                className="w-full inline-flex items-center justify-center space-x-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm px-4 py-2.5 transition cursor-pointer shadow-sm hover:shadow active:scale-[0.99]"
+                id="btn-open-reading-comprehension-generator-tool"
+                aria-label="Open Tool: Free Reading Comprehension Generator"
+              >
+                <span>Open Reading Tool</span>
+                <ArrowRight className="h-4 w-4" />
+              </a>
+            </div>
+          </div>
+
+          {/* Card 3: Data Interpretation & Chart Analysis */}
           <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-gradient-to-br from-teal-50/40 via-white to-zinc-50/60 dark:from-zinc-900 dark:via-zinc-850 dark:to-zinc-900 p-6 flex flex-col justify-between space-y-5 hover:border-teal-300 dark:hover:border-teal-700/60 transition shadow-sm">
             <div className="space-y-3.5">
               <div className="flex items-center justify-between">
@@ -730,44 +781,145 @@ export default function Dashboard({
               </div>
 
               <div className="space-y-1.5">
-                <h3 className="font-display text-lg font-bold text-zinc-900 dark:text-white">
+                <h3 className="font-display text-base sm:text-lg font-bold text-zinc-900 dark:text-white">
                   Data Interpretation Generator
                 </h3>
-                <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-350 leading-relaxed font-sans">
+                <p className="text-xs text-zinc-600 dark:text-zinc-350 leading-relaxed font-sans">
                   Create analytical passages with interactive bar charts, data tables, and quantitative reasoning questions.
                 </p>
               </div>
 
               <div className="flex flex-wrap gap-1.5 pt-1 text-[11px] text-zinc-500 dark:text-zinc-400">
-                <span className="inline-flex items-center space-x-1 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-2.5 py-0.5 rounded-md">
+                <span className="inline-flex items-center space-x-1 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-2 py-0.5 rounded-md">
                   <Check className="h-3 w-3 text-teal-600 dark:text-teal-400" />
-                  <span>Bar Charts &amp; Data Tables</span>
+                  <span>Bar Charts &amp; Tables</span>
                 </span>
-                <span className="inline-flex items-center space-x-1 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-2.5 py-0.5 rounded-md">
+                <span className="inline-flex items-center space-x-1 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-2 py-0.5 rounded-md">
                   <Check className="h-3 w-3 text-teal-600 dark:text-teal-400" />
-                  <span>Competitive Exam Prep</span>
-                </span>
-                <span className="inline-flex items-center space-x-1 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-2.5 py-0.5 rounded-md">
-                  <Check className="h-3 w-3 text-teal-600 dark:text-teal-400" />
-                  <span>Automated AI Scoring</span>
+                  <span>Interactive Practice</span>
                 </span>
               </div>
             </div>
 
             <div className="pt-2">
-              <button
-                onClick={onOpenDataInterpretation}
-                className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 rounded-xl border border-zinc-300 bg-white hover:bg-zinc-50 text-zinc-800 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:bg-zinc-750 dark:text-zinc-100 font-semibold text-xs sm:text-sm px-5 py-3 transition cursor-pointer shadow-sm hover:shadow"
+              <a
+                href="/data-interpretation"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onOpenDataInterpretation();
+                }}
+                className="w-full inline-flex items-center justify-center space-x-2 rounded-xl border border-zinc-300 bg-white hover:bg-zinc-50 text-zinc-800 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:bg-zinc-750 dark:text-zinc-100 font-semibold text-xs sm:text-sm px-4 py-2.5 transition cursor-pointer shadow-sm hover:shadow"
                 id="btn-open-data-interpretation-tool"
                 aria-label="Open Tool: Data Interpretation Generator"
               >
-                <span>Open Tool</span>
+                <span>Open Data Tool</span>
                 <ArrowRight className="h-4 w-4" />
-              </button>
+              </a>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Directory & Quick Links Section */}
+      <nav aria-label="Comprevo Quick Navigation" className="rounded-xl border border-zinc-200 bg-zinc-50/50 p-6 dark:border-zinc-800 dark:bg-zinc-900/50">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-xs">
+          <div>
+            <h4 className="font-bold text-zinc-900 dark:text-white mb-2 font-mono uppercase text-[10px] tracking-wider text-emerald-600 dark:text-emerald-400">
+              Reading Tools
+            </h4>
+            <ul className="space-y-1.5">
+              <li>
+                <a
+                  href="/comprehension-generator"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (onOpenComprehensionGenerator) onOpenComprehensionGenerator();
+                  }}
+                  className="text-zinc-600 hover:text-emerald-600 dark:text-zinc-400 dark:hover:text-emerald-400 transition"
+                >
+                  AI Comprehension Generator
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/reading-comprehension-generator"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (onOpenReadingComprehensionGenerator) onOpenReadingComprehensionGenerator();
+                  }}
+                  className="text-zinc-600 hover:text-indigo-600 dark:text-zinc-400 dark:hover:text-indigo-400 transition"
+                >
+                  Reading Comprehension Generator
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/generator"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onStartFunnel();
+                  }}
+                  className="text-zinc-600 hover:text-emerald-600 dark:text-zinc-400 dark:hover:text-emerald-400 transition"
+                >
+                  Worksheet Builder
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-bold text-zinc-900 dark:text-white mb-2 font-mono uppercase text-[10px] tracking-wider text-teal-600 dark:text-teal-400">
+              Quantitative
+            </h4>
+            <ul className="space-y-1.5">
+              <li>
+                <a
+                  href="/data-interpretation"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onOpenDataInterpretation();
+                  }}
+                  className="text-zinc-600 hover:text-teal-600 dark:text-zinc-400 dark:hover:text-teal-400 transition"
+                >
+                  Data Interpretation Generator
+                </a>
+              </li>
+              <li>
+                <button
+                  onClick={onOpenDataInterpretation}
+                  className="text-zinc-600 hover:text-teal-600 dark:text-zinc-400 dark:hover:text-teal-400 transition text-left cursor-pointer"
+                >
+                  Chart &amp; Table Analysis
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-bold text-zinc-900 dark:text-white mb-2 font-mono uppercase text-[10px] tracking-wider text-zinc-500">
+              Curriculum Boards
+            </h4>
+            <ul className="space-y-1 text-zinc-500 dark:text-zinc-400">
+              <li>CBSE Class 6–10</li>
+              <li>ICSE Reading Practice</li>
+              <li>Cambridge (IGCSE / Checkpoint)</li>
+              <li>International Baccalaureate (IB)</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-bold text-zinc-900 dark:text-white mb-2 font-mono uppercase text-[10px] tracking-wider text-zinc-500">
+              Features
+            </h4>
+            <ul className="space-y-1 text-zinc-500 dark:text-zinc-400">
+              <li>Automatic Grading &amp; Rubrics</li>
+              <li>Print-Ready PDF Exports</li>
+              <li>Interactive Student Solver</li>
+              <li>No Registration Required</li>
+            </ul>
+          </div>
+        </div>
+      </nav>
 
       {/* 10. FINAL CALL TO ACTION */}
       <section aria-labelledby="final-cta-heading" className="rounded-2xl border border-emerald-200 bg-gradient-to-r from-emerald-600 to-teal-700 p-8 text-white text-center space-y-4 shadow-md">

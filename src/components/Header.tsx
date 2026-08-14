@@ -73,6 +73,15 @@ export default function Header({
               <span>AI Generator</span>
             </button>
           )}
+          {onNavigateReadingComprehensionGenerator && (
+            <button
+              onClick={onNavigateReadingComprehensionGenerator}
+              className="px-3 py-1.5 rounded-lg font-medium text-zinc-650 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-350 dark:hover:text-white dark:hover:bg-zinc-900 transition cursor-pointer flex items-center space-x-1.5"
+            >
+              <BookOpen className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
+              <span>Reading Generator</span>
+            </button>
+          )}
           {onNavigateDataInterpretation && (
             <button
               onClick={onNavigateDataInterpretation}
@@ -182,6 +191,19 @@ export default function Header({
                         >
                           <Sparkles className="h-3.5 w-3.5 text-emerald-600" />
                           <span>AI Comprehension Guide</span>
+                        </button>
+                      )}
+
+                      {onNavigateReadingComprehensionGenerator && (
+                        <button
+                          onClick={() => {
+                            onNavigateReadingComprehensionGenerator();
+                            setShowDropdown(false);
+                          }}
+                          className="flex w-full items-center space-x-2 rounded-md px-2.5 py-1.5 text-left text-xs text-zinc-600 transition hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-800 cursor-pointer"
+                        >
+                          <BookOpen className="h-3.5 w-3.5 text-indigo-600" />
+                          <span>Reading Generator</span>
                         </button>
                       )}
 
