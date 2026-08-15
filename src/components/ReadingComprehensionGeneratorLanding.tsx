@@ -554,24 +554,64 @@ export default function ReadingComprehensionGeneratorLanding({
             <h3 className="font-bold text-zinc-900 dark:text-white">Main AI Tools</h3>
             <ul className="space-y-1 text-zinc-500 dark:text-zinc-400">
               <li>
-                <button onClick={onNavigateHome} className="hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline cursor-pointer">
+                <a
+                  href="/"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigateHome();
+                  }}
+                  className="hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline cursor-pointer"
+                >
                   Comprevo Learning Dashboard (Home)
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={onOpenComprehensionGenerator} className="hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline cursor-pointer">
+                <a
+                  href="/comprehension-generator"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onOpenComprehensionGenerator();
+                  }}
+                  className="hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline cursor-pointer"
+                >
                   Free AI Comprehension Generator
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={onOpenDataInterpretation} className="hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline cursor-pointer">
+                <a
+                  href="/class-8-comprehension"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (onOpenClass8Comprehension) onOpenClass8Comprehension();
+                  }}
+                  className="hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline cursor-pointer"
+                >
+                  Class 8 English Comprehension Passages
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/data-interpretation"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onOpenDataInterpretation();
+                  }}
+                  className="hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline cursor-pointer"
+                >
                   Data Interpretation &amp; Chart Practice
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={onStartGenerator} className="hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline cursor-pointer">
+                <a
+                  href="/generator"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onStartGenerator();
+                  }}
+                  className="hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline cursor-pointer"
+                >
                   Interactive Passage Generator
-                </button>
+                </a>
               </li>
             </ul>
           </div>
@@ -580,24 +620,53 @@ export default function ReadingComprehensionGeneratorLanding({
             <h3 className="font-bold text-zinc-900 dark:text-white">Grade-Level Resources</h3>
             <ul className="space-y-1 text-zinc-500 dark:text-zinc-400">
               <li>
-                <button onClick={onStartGenerator} className="hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline cursor-pointer">
-                  Grade 6 Reading Comprehension
-                </button>
+                <a
+                  href="/generator"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onStartGenerator();
+                  }}
+                  className="hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline cursor-pointer"
+                >
+                  Grade 6 Reading Comprehension Worksheets
+                </a>
               </li>
               <li>
-                <button onClick={onStartGenerator} className="hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline cursor-pointer">
+                <a
+                  href="/generator"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onStartGenerator();
+                  }}
+                  className="hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline cursor-pointer"
+                >
                   Grade 7 English Passages &amp; MCQs
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={onOpenClass8Comprehension || onStartGenerator} className="hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline cursor-pointer">
+                <a
+                  href="/class-8-comprehension"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (onOpenClass8Comprehension) onOpenClass8Comprehension();
+                    else onStartGenerator();
+                  }}
+                  className="hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline cursor-pointer"
+                >
                   Grade 8 Literature &amp; CBSE Passages
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={onStartGenerator} className="hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline cursor-pointer">
+                <a
+                  href="/generator"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onStartGenerator();
+                  }}
+                  className="hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline cursor-pointer"
+                >
                   Grade 9 &amp; 10 Board Assessment Prep
-                </button>
+                </a>
               </li>
             </ul>
           </div>
@@ -606,24 +675,53 @@ export default function ReadingComprehensionGeneratorLanding({
             <h3 className="font-bold text-zinc-900 dark:text-white">Curriculum Boards</h3>
             <ul className="space-y-1 text-zinc-500 dark:text-zinc-400">
               <li>
-                <button onClick={onStartGenerator} className="hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline cursor-pointer">
+                <a
+                  href="/class-8-comprehension"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (onOpenClass8Comprehension) onOpenClass8Comprehension();
+                    else onStartGenerator();
+                  }}
+                  className="hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline cursor-pointer"
+                >
                   CBSE / NCERT Unseen Passages
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={onStartGenerator} className="hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline cursor-pointer">
+                <a
+                  href="/generator"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onStartGenerator();
+                  }}
+                  className="hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline cursor-pointer"
+                >
                   ICSE English Comprehension Worksheets
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={onStartGenerator} className="hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline cursor-pointer">
+                <a
+                  href="/generator"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onStartGenerator();
+                  }}
+                  className="hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline cursor-pointer"
+                >
                   Cambridge IGCSE Reading Skills
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={onStartGenerator} className="hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline cursor-pointer">
+                <a
+                  href="/generator"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onStartGenerator();
+                  }}
+                  className="hover:text-emerald-600 dark:hover:text-emerald-400 hover:underline cursor-pointer"
+                >
                   IB MYP Language &amp; Literature Practice
-                </button>
+                </a>
               </li>
             </ul>
           </div>
