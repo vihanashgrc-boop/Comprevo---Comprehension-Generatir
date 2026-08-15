@@ -13,7 +13,7 @@ const DEFAULT_IMAGE = "https://comprevo-comprehension-generator.vercel.app/icon.
 export const DEFAULT_PAGE_SEO: PageSEOConfig = {
   title: "Free AI Reading Comprehension Generator | Comprevo",
   description:
-    "Create free AI-powered reading comprehension passages with questions and answers in seconds. Perfect for teachers, students, parents, homeschooling, and schools.",
+    "Generate free AI reading comprehension passages with questions, answers, and worksheets in seconds. Ideal for teachers, students, CBSE, ICSE, and homeschooling.",
   keywords:
     "reading comprehension generator, AI comprehension generator, comprehension questions, reading passages, worksheets, teachers, students, education, Comprevo, free comprehension generator, reading comprehension practice",
   canonicalPath: "/",
