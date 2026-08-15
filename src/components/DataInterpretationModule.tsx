@@ -768,7 +768,7 @@ export default function DataInterpretationModule({
               {activeDataSet.chartType === "Pie Chart" && activeDataSet.dataset.slices && (
                 <div className="grid md:grid-cols-2 gap-6 items-center">
                   <div className="flex justify-center">
-                    <svg viewBox="0 0 100 100" className="w-48 h-48 transform -rotate-90">
+                    <svg viewBox="0 0 100 100" className="w-48 h-48 transform -rotate-90" role="img" aria-label="Data Interpretation Pie Chart">
                       {(() => {
                         let cumulativePercent = 0;
                         return activeDataSet.dataset.slices!.map((slice, i) => {

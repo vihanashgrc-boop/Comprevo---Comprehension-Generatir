@@ -43,7 +43,7 @@ export default function Header({
           <div className="flex h-9 w-9 items-center justify-center rounded-lg overflow-hidden bg-white border border-zinc-250 dark:border-zinc-800 shadow-sm transition-transform group-hover:scale-[1.02]">
             <img 
               src={logoUrl} 
-              alt="COMPREVO Logo" 
+              alt="Comprevo Logo" 
               className="h-full w-full object-cover" 
               referrerPolicy="no-referrer"
             />
@@ -71,7 +71,7 @@ export default function Header({
               onClick={onNavigateComprehensionGenerator}
               className="px-3 py-1.5 rounded-lg font-medium text-zinc-650 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-350 dark:hover:text-white dark:hover:bg-zinc-900 transition cursor-pointer flex items-center space-x-1.5"
             >
-              <Sparkles className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+              <Sparkles className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" aria-hidden="true" />
               <span>AI Generator</span>
             </button>
           )}
@@ -80,7 +80,7 @@ export default function Header({
               onClick={onNavigateReadingComprehensionGenerator}
               className="px-3 py-1.5 rounded-lg font-medium text-zinc-650 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-350 dark:hover:text-white dark:hover:bg-zinc-900 transition cursor-pointer flex items-center space-x-1.5"
             >
-              <BookOpen className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
+              <BookOpen className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" aria-hidden="true" />
               <span>Reading Generator</span>
             </button>
           )}
@@ -89,7 +89,7 @@ export default function Header({
               onClick={onNavigateClass8Comprehension}
               className="px-3 py-1.5 rounded-lg font-medium text-zinc-650 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-350 dark:hover:text-white dark:hover:bg-zinc-900 transition cursor-pointer flex items-center space-x-1.5"
             >
-              <GraduationCap className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+              <GraduationCap className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" aria-hidden="true" />
               <span>Class 8 English</span>
             </button>
           )}
@@ -98,7 +98,7 @@ export default function Header({
               onClick={onNavigateDataInterpretation}
               className="px-3 py-1.5 rounded-lg font-medium text-zinc-650 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-350 dark:hover:text-white dark:hover:bg-zinc-900 transition cursor-pointer flex items-center space-x-1.5"
             >
-              <TrendingUp className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+              <TrendingUp className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" aria-hidden="true" />
               <span>Data Practice</span>
             </button>
           )}
@@ -113,7 +113,7 @@ export default function Header({
                 className="flex items-center space-x-1.5 rounded-full border border-orange-200/50 bg-orange-50/40 px-2.5 py-0.5 text-[10px] font-mono font-medium text-orange-700 dark:border-orange-950/30 dark:bg-orange-950/20 dark:text-orange-400"
                 title="Daily practice streak"
               >
-                <Flame className="h-3 w-3 fill-orange-500 text-orange-500 animate-pulse" />
+                <Flame className="h-3 w-3 fill-orange-500 text-orange-500 animate-pulse" aria-hidden="true" />
                 <span>Streak: {user.streak}d</span>
               </div>
 
@@ -121,7 +121,7 @@ export default function Header({
                 className="flex items-center space-x-1.5 rounded-full border border-emerald-200/50 bg-emerald-50/40 px-2.5 py-0.5 text-[10px] font-mono font-medium text-emerald-800 dark:border-emerald-950/30 dark:bg-emerald-950/20 dark:text-emerald-400"
                 title="Total finished worksheets"
               >
-                <Award className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
+                <Award className="h-3 w-3 text-emerald-600 dark:text-emerald-400" aria-hidden="true" />
                 <span>Worksheets: {user.totalWorksheets}</span>
               </div>
             </div>
@@ -135,9 +135,9 @@ export default function Header({
             id="theme-toggle-btn"
           >
             {theme === "light" ? (
-              <Moon className="h-3.5 w-3.5 text-zinc-500" />
+              <Moon className="h-3.5 w-3.5 text-zinc-500" aria-hidden="true" />
             ) : (
-              <Sun className="h-3.5 w-3.5 text-amber-400" />
+              <Sun className="h-3.5 w-3.5 text-amber-400" aria-hidden="true" />
             )}
           </button>
 

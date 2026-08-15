@@ -158,7 +158,7 @@ export default function AuthScreen({
             <div className="h-16 w-16 rounded-xl overflow-hidden bg-white border border-zinc-200 dark:border-zinc-800 shadow-sm mb-2">
               <img 
                 src={logoUrl} 
-                alt="COMPREVO Logo" 
+                alt="Comprevo Logo" 
                 className="h-full w-full object-cover"
                 referrerPolicy="no-referrer"
               />
@@ -394,7 +394,7 @@ export default function AuthScreen({
                   onClick={handleGoogleLogin}
                   className="w-full flex items-center justify-center space-x-2 rounded-lg border border-zinc-200 bg-white py-2 px-3 text-xs font-semibold text-zinc-700 transition hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700 cursor-pointer"
                 >
-                  <svg className="h-3.5 w-3.5" viewBox="0 0 24 24">
+                  <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" aria-hidden="true">
                     <path
                       fill="#EA4335"
                       d="M12.24 10.285V14.4h6.887c-.648 2.41-2.519 4.114-5.136 4.114-3.555 0-6.437-2.882-6.437-6.437s2.882-6.437 6.437-6.437c1.556 0 2.978.557 4.093 1.478l3.056-3.056C19.1 2.3 15.89 1 12.24 1 5.48 1 0 6.48 0 13.24s5.48 12.24 12.24 12.24c6.76 0 11.76-4.755 11.76-11.76 0-.616-.067-1.12-.148-1.556H12.24z"
