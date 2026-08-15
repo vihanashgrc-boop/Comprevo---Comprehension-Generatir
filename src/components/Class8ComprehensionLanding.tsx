@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { updateSEO, PAGE_SEO_REGISTRY } from "../utils/seo";
 import { 
   Sparkles, ArrowRight, Play, CheckCircle2, TrendingUp, 
   GraduationCap, Users, Brain, BookOpen, Layers, 
@@ -26,29 +27,10 @@ export default function Class8ComprehensionLanding({
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [showSampleAnswers, setShowSampleAnswers] = useState(false);
 
-  // Set document title and meta description dynamically for this SEO page
+  // Set document title, canonical, and social meta tags dynamically for this SEO page
   useEffect(() => {
-    const originalTitle = document.title;
-    document.title = "Class 8 English Comprehension Passages with Questions | Comprevo";
-
-    let metaDesc = document.querySelector('meta[name="description"]');
-    const originalDesc = metaDesc ? metaDesc.getAttribute("content") : "";
-    if (metaDesc) {
-      metaDesc.setAttribute(
-        "content",
-        "Practice Class 8 English comprehension passages with questions and answers. Generate unlimited CBSE-style comprehension passages using Comprevo AI."
-      );
-    }
-
-    // Scroll to top upon landing
+    updateSEO(PAGE_SEO_REGISTRY.class_8_comprehension);
     window.scrollTo(0, 0);
-
-    return () => {
-      document.title = originalTitle;
-      if (metaDesc && originalDesc) {
-        metaDesc.setAttribute("content", originalDesc);
-      }
-    };
   }, []);
 
   const toggleFaq = (index: number) => {

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { updateSEO, PAGE_SEO_REGISTRY } from "../utils/seo";
 import { 
   DataChartType, DataQuestionFocus, DataInterpretationSet, BoardType, DifficultyLevel, UserProfile 
 } from "../types";
@@ -428,6 +429,11 @@ export default function DataInterpretationModule({
   const [submitted, setSubmitted] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [scoreResult, setScoreResult] = useState<{ score: number; max: number; percentage: number; xp: number } | null>(null);
+
+  useEffect(() => {
+    updateSEO(PAGE_SEO_REGISTRY.data_interpretation);
+    window.scrollTo(0, 0);
+  }, []);
 
   // Available chart options
   const chartOptions: { type: DataChartType; label: string; desc: string; icon: any }[] = [

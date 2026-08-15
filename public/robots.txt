@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
 
+# Host & Sitemaps
+Host: https://comprevo-comprehension-generator.vercel.app
 Sitemap: https://comprevo-comprehension-generator.vercel.app/sitemap.xml
+

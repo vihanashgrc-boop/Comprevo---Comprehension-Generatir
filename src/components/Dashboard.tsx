@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { updateSEO, DEFAULT_PAGE_SEO } from "../utils/seo";
 import { UserProfile, GeneratedPassage } from "../types";
 import { getLocalDateString } from "../utils/streak";
 import { 
@@ -43,6 +44,10 @@ export default function Dashboard({
   const activeClass = user.history && user.history.length > 0 
     ? user.history[0].config.academicLevel 
     : "";
+
+  useEffect(() => {
+    updateSEO(DEFAULT_PAGE_SEO);
+  }, []);
 
   const toggleFaq = (index: number) => {
     setOpenFaq(openFaq === index ? null : index);

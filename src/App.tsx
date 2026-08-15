@@ -18,6 +18,7 @@ import PrivacyModal from "./components/PrivacyModal";
 import { Sparkles, Compass, AlertCircle, BookOpen, Clock, Activity, RefreshCw, ArrowLeft } from "lucide-react";
 
 import { generateClientFallbackPassage } from "./utils/fallbackGenerator";
+import { updateSEO, PAGE_SEO_REGISTRY, DEFAULT_PAGE_SEO } from "./utils/seo";
 
 export default function App() {
   // Theme Management
@@ -175,6 +176,22 @@ export default function App() {
       setStep(initialRouteStep);
     }
   }, []);
+
+  // Synchronize SEO Title & Meta Tags on Page/Step Change
+  useEffect(() => {
+    if (step === "viewer" && activePassage) {
+      updateSEO({
+        title: `${activePassage.passage.title} — Reading Comprehension Practice | Comprevo`,
+        description: `Read "${activePassage.passage.title}" for ${activePassage.config.academicLevel || "Class 8"} (${activePassage.config.board}). Practice comprehension questions and check detailed answers.`,
+        keywords: `reading comprehension generator, comprehension questions, reading passages, worksheets, teachers, students, education, Comprevo`,
+        canonicalPath: "/",
+        ogType: "article",
+      });
+    } else {
+      const pageSEO = PAGE_SEO_REGISTRY[step] || DEFAULT_PAGE_SEO;
+      updateSEO(pageSEO);
+    }
+  }, [step, activePassage]);
 
   // Sync theme changes to body
   const handleToggleTheme = () => {

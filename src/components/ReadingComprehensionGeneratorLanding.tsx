@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { updateSEO, PAGE_SEO_REGISTRY } from "../utils/seo";
 import { 
   Sparkles, ArrowRight, Play, CheckCircle2, TrendingUp, 
   GraduationCap, Users, Brain, BookOpen, Layers, 
@@ -24,29 +25,10 @@ export default function ReadingComprehensionGeneratorLanding({
 }: ReadingComprehensionGeneratorLandingProps) {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
-  // Set document title and meta description dynamically for this SEO page
+  // Set document title, canonical, and social meta tags dynamically for this SEO page
   useEffect(() => {
-    const originalTitle = document.title;
-    document.title = "Free Reading Comprehension Generator | Comprevo";
-
-    let metaDesc = document.querySelector('meta[name="description"]');
-    const originalDesc = metaDesc ? metaDesc.getAttribute("content") : "";
-    if (metaDesc) {
-      metaDesc.setAttribute(
-        "content",
-        "Create reading comprehension passages with questions instantly for any grade using Comprevo."
-      );
-    }
-
-    // Scroll to top upon landing
+    updateSEO(PAGE_SEO_REGISTRY.reading_comprehension_generator);
     window.scrollTo(0, 0);
-
-    return () => {
-      document.title = originalTitle;
-      if (metaDesc && originalDesc) {
-        metaDesc.setAttribute("content", originalDesc);
-      }
-    };
   }, []);
 
   const toggleFaq = (index: number) => {
