@@ -62,24 +62,24 @@ export default function Dashboard({
 
   const faqs = [
     {
-      q: "What is an AI comprehension generator?",
-      a: "An AI comprehension generator is a smart educational tool that uses artificial intelligence to create custom reading passages, practice questions, vocabulary lists, and answer keys in seconds."
+      q: "What is an AI Reading Comprehension Generator?",
+      a: "An AI Reading Comprehension Generator is a smart educational tool that uses artificial intelligence to create custom reading passages, practice questions, vocabulary lists, and answer keys in seconds."
     },
     {
-      q: "How does Comprevo work?",
-      a: "Comprevo lets you choose your grade level, curriculum board (NCERT/CBSE, ICSE, Cambridge, IB, State Board), difficulty, and topic. Our AI generator then creates a unique reading passage with tailored questions and an instant answer key."
+      q: "How does Comprevo work as a free comprehension generator?",
+      a: "Comprevo lets you choose your grade level (Grades 6–10), curriculum board (NCERT/CBSE, ICSE, Cambridge, IB, State Board), difficulty, and topic. Our AI generator creates a unique passage with tailored questions and an instant answer key for free."
     },
     {
-      q: "Is Comprevo free to use?",
-      a: "Yes! Comprevo is 100% free for students, teachers, parents, and tutors. You can create unlimited reading comprehension worksheets with no subscription required."
+      q: "How does Comprevo support daily reading comprehension practice?",
+      a: "Students can engage in daily reading comprehension practice on topics like space, technology, history, or science and solve interactive questions with instant scoring feedback to build strong English skills."
     },
     {
-      q: "Can teachers use Comprevo for classroom worksheets?",
-      a: "Absolutely! Teachers can use Comprevo to generate printable reading tests, homework sheets, grammar practice, and data interpretation graph worksheets for Grade 6 through Grade 10."
+      q: "Is Comprevo a good comprehension generator for teachers?",
+      a: "Yes! As a dedicated comprehension generator for teachers, Comprevo enables educators to quickly generate printable classroom reading tests, homework sheets, grammar practice, and data interpretation graph worksheets with full answer keys."
     },
     {
-      q: "Can students practice reading comprehension independently?",
-      a: "Yes! Students can pick any topic they love—like space, history, or fantasy—and solve interactive questions with instant feedback to improve their English skills."
+      q: "How does Comprevo work as a comprehension generator for students?",
+      a: "As an interactive comprehension generator for students, Comprevo allows learners to practice at their own pace with 3 difficulty tiers (Easy, Medium, Hard), contextual vocabulary definitions, and instant feedback."
     },
     {
       q: "Can I create comprehension questions automatically?",
@@ -98,10 +98,10 @@ export default function Dashboard({
               Free AI Reading Comprehension Generator
             </span>
             <h1 id="hero-title" className="font-display text-3xl md:text-4xl font-extrabold text-zinc-900 dark:text-white tracking-tight leading-tight">
-              Read Better. Comprehend Faster. Excel in English.
+              AI Reading Comprehension Generator for Fast, Smarter Learning
             </h1>
             <p className="text-sm text-zinc-600 dark:text-zinc-350 leading-relaxed font-sans">
-              Comprevo is a free <strong>AI Reading Comprehension Generator</strong> for students, teachers, and parents. Instantly create tailored English reading passages, practice questions, and data graphs for Grade 6–10.
+              Comprevo is a <strong>Free Comprehension Generator</strong> built for daily <strong>Reading Comprehension Practice</strong>. Whether you need a powerful <strong>Comprehension Generator for Teachers</strong> to create classroom worksheets or an interactive <strong>Comprehension Generator for Students</strong> to boost exam scores, generate custom passages and questions in seconds.
             </p>
             <div className="pt-2 flex flex-wrap gap-3">
               <button
@@ -173,10 +173,10 @@ export default function Dashboard({
               <span className="text-[9px] font-mono text-zinc-400">CURRENT GRADE</span>
             </div>
             <h2 id="recommended-practice-heading" className="font-sans text-lg font-bold text-zinc-900 dark:text-white tracking-tight">
-              Recommended: Science &amp; Space Reading Practice
+              Recommended: Science &amp; Space Reading Comprehension Practice
             </h2>
             <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed font-sans max-w-md">
-              Improve your reading comprehension skills with engaging passages on astronomy, biology, space exploration, and environmental science aligned with <span className="font-semibold">{user.selectedBoard}</span>.
+              Strengthen English skills with curriculum-aligned reading passages on astronomy, technology, and nature tailored for <span className="font-semibold">{user.selectedBoard}</span>.
             </p>
           </div>
 
@@ -215,12 +215,12 @@ export default function Dashboard({
               </div>
               <div className="space-y-0.5">
                 <h3 className="font-sans text-xs font-bold text-zinc-850 dark:text-white">
-                  {completedToday ? "Goal Completed!" : "Daily Practice Goal"}
+                  {completedToday ? "Goal Completed!" : "Daily Reading Practice"}
                 </h3>
                 <p className="text-[11px] text-zinc-500 dark:text-zinc-450 leading-relaxed">
                   {completedToday 
-                    ? "Great job! You finished a practice worksheet today." 
-                    : "Complete at least 1 worksheet today to keep your streak going!"}
+                    ? "Great job! You completed your comprehension practice today." 
+                    : "Complete 1 quick worksheet today to build your daily reading habit."}
                 </p>
               </div>
             </div>
@@ -258,59 +258,89 @@ export default function Dashboard({
 
       </section>
 
-      {/* 3. WHY CHOOSE COMPREVO */}
-      <section aria-labelledby="why-choose-heading" className="rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 space-y-6">
-        <div className="border-b border-zinc-100 pb-3 dark:border-zinc-800">
-          <span className="text-[9px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest block">
-            Smart Reading Comprehension
+      {/* 3. WHY CHOOSE COMPREVO? (5 Benefits) */}
+      <section aria-labelledby="why-choose-heading" className="rounded-xl border border-zinc-200 bg-white p-6 sm:p-8 dark:border-zinc-800 dark:bg-zinc-900 space-y-6">
+        <div className="border-b border-zinc-100 pb-4 dark:border-zinc-800">
+          <span className="text-[9px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest block mb-1">
+            Smart AI Reading Platform
           </span>
-          <h2 id="why-choose-heading" className="font-display text-xl font-bold text-zinc-900 dark:text-white">
-            Why Choose Comprevo as Your AI Reading Tool?
+          <h2 id="why-choose-heading" className="font-display text-2xl font-bold text-zinc-900 dark:text-white">
+            Why Choose Comprevo?
           </h2>
-          <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 max-w-2xl leading-relaxed">
-            Finding high-quality, grade-appropriate reading passages with good questions takes hours. Comprevo solves this by generating instant, curriculum-aligned English comprehension passages and worksheets in seconds.
+          <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1 max-w-2xl leading-relaxed">
+            Comprevo is the premier <strong>AI Reading Comprehension Generator</strong> built to save educators time and accelerate student reading skills. Here are 5 key benefits:
           </p>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
-          <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-850/50 border border-zinc-150 dark:border-zinc-800 space-y-2">
-            <div className="h-8 w-8 rounded-lg bg-emerald-100 dark:bg-emerald-950/60 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
-              <Zap className="h-4 w-4" />
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          {/* Benefit 1 */}
+          <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-850/50 border border-zinc-150 dark:border-zinc-800 flex flex-col justify-between space-y-3">
+            <div className="space-y-2">
+              <div className="h-8 w-8 rounded-lg bg-emerald-100 dark:bg-emerald-950/60 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                <Zap className="h-4 w-4" />
+              </div>
+              <h3 className="font-bold text-xs text-zinc-900 dark:text-white">Instant AI Passage Creation</h3>
+              <p className="text-[11px] text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                Generate high-quality reading passages with multiple-choice, short-answer, and vocabulary questions in seconds.
+              </p>
             </div>
-            <h3 className="font-bold text-xs text-zinc-900 dark:text-white">Instant AI Generation</h3>
-            <p className="text-[11px] text-zinc-500 dark:text-zinc-400 leading-relaxed">
-              Create new reading comprehension stories and question sets instantly without searching for PDFs or textbooks.
-            </p>
+            <span className="text-[9px] font-mono text-emerald-600 dark:text-emerald-400 font-semibold">01 • Fast Generation</span>
           </div>
 
-          <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-850/50 border border-zinc-150 dark:border-zinc-800 space-y-2">
-            <div className="h-8 w-8 rounded-lg bg-emerald-100 dark:bg-emerald-950/60 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
-              <GraduationCap className="h-4 w-4" />
+          {/* Benefit 2 */}
+          <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-850/50 border border-zinc-150 dark:border-zinc-800 flex flex-col justify-between space-y-3">
+            <div className="space-y-2">
+              <div className="h-8 w-8 rounded-lg bg-emerald-100 dark:bg-emerald-950/60 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                <GraduationCap className="h-4 w-4" />
+              </div>
+              <h3 className="font-bold text-xs text-zinc-900 dark:text-white">Comprehension Generator for Teachers</h3>
+              <p className="text-[11px] text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                Create customized classroom quizzes, homework sheets, and printable PDF tests with full answer keys and rubrics.
+              </p>
             </div>
-            <h3 className="font-bold text-xs text-zinc-900 dark:text-white">Curriculum Aligned</h3>
-            <p className="text-[11px] text-zinc-500 dark:text-zinc-400 leading-relaxed">
-              Matches National Standard, NCERT / CBSE, ICSE, Cambridge, IB, and State Board English standards for Grades 6 through 10.
-            </p>
+            <span className="text-[9px] font-mono text-emerald-600 dark:text-emerald-400 font-semibold">02 • For Educators</span>
           </div>
 
-          <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-850/50 border border-zinc-150 dark:border-zinc-800 space-y-2">
-            <div className="h-8 w-8 rounded-lg bg-emerald-100 dark:bg-emerald-950/60 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
-              <Target className="h-4 w-4" />
+          {/* Benefit 3 */}
+          <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-850/50 border border-zinc-150 dark:border-zinc-800 flex flex-col justify-between space-y-3">
+            <div className="space-y-2">
+              <div className="h-8 w-8 rounded-lg bg-emerald-100 dark:bg-emerald-950/60 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                <Users className="h-4 w-4" />
+              </div>
+              <h3 className="font-bold text-xs text-zinc-900 dark:text-white">Comprehension Generator for Students</h3>
+              <p className="text-[11px] text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                Engaging student reading practice with real-time feedback, interactive scoring, vocabulary definitions, and tips.
+              </p>
             </div>
-            <h3 className="font-bold text-xs text-zinc-900 dark:text-white">Adaptive Difficulty</h3>
-            <p className="text-[11px] text-zinc-500 dark:text-zinc-400 leading-relaxed">
-              Choose Easy, Medium, or Hard difficulty to match every student's exact reading speed and vocabulary level.
-            </p>
+            <span className="text-[9px] font-mono text-emerald-600 dark:text-emerald-400 font-semibold">03 • For Students</span>
           </div>
 
-          <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-850/50 border border-zinc-150 dark:border-zinc-800 space-y-2">
-            <div className="h-8 w-8 rounded-lg bg-emerald-100 dark:bg-emerald-950/60 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
-              <Award className="h-4 w-4" />
+          {/* Benefit 4 */}
+          <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-850/50 border border-zinc-150 dark:border-zinc-800 flex flex-col justify-between space-y-3">
+            <div className="space-y-2">
+              <div className="h-8 w-8 rounded-lg bg-emerald-100 dark:bg-emerald-950/60 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                <Target className="h-4 w-4" />
+              </div>
+              <h3 className="font-bold text-xs text-zinc-900 dark:text-white">Curriculum &amp; Grade Aligned</h3>
+              <p className="text-[11px] text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                Perfect for Grades 6–10 across CBSE, ICSE, Cambridge, IB, and State Boards with 3 adaptive difficulty levels.
+              </p>
             </div>
-            <h3 className="font-bold text-xs text-zinc-900 dark:text-white">100% Free &amp; Printable</h3>
-            <p className="text-[11px] text-zinc-500 dark:text-zinc-400 leading-relaxed">
-              Solve worksheets online or print clean PDF-friendly pages for homework, exams, and classroom practice.
-            </p>
+            <span className="text-[9px] font-mono text-emerald-600 dark:text-emerald-400 font-semibold">04 • Standard Aligned</span>
+          </div>
+
+          {/* Benefit 5 */}
+          <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-850/50 border border-zinc-150 dark:border-zinc-800 flex flex-col justify-between space-y-3">
+            <div className="space-y-2">
+              <div className="h-8 w-8 rounded-lg bg-emerald-100 dark:bg-emerald-950/60 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                <Award className="h-4 w-4" />
+              </div>
+              <h3 className="font-bold text-xs text-zinc-900 dark:text-white">Free Comprehension Generator</h3>
+              <p className="text-[11px] text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                100% free with unlimited worksheets, streak tracking, and instant PDF printing with no sign-up or paywalls.
+              </p>
+            </div>
+            <span className="text-[9px] font-mono text-emerald-600 dark:text-emerald-400 font-semibold">05 • 100% Free</span>
           </div>
         </div>
       </section>
@@ -411,16 +441,16 @@ export default function Dashboard({
           <div className="p-5 rounded-xl border border-zinc-150 dark:border-zinc-800 bg-zinc-50/60 dark:bg-zinc-850/40 space-y-3">
             <div className="flex items-center space-x-2 text-emerald-600 dark:text-emerald-400">
               <Users className="h-5 w-5" />
-              <h3 className="font-bold text-sm text-zinc-900 dark:text-white">AI for Students</h3>
+              <h3 className="font-bold text-sm text-zinc-900 dark:text-white">Comprehension Generator for Students</h3>
             </div>
             <ul className="text-xs text-zinc-500 dark:text-zinc-400 space-y-2 leading-relaxed">
               <li className="flex items-start space-x-2">
                 <Check className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-                <span>Practice reading comprehension questions for school exams.</span>
+                <span>Daily Reading Comprehension Practice for school exams and competitions.</span>
               </li>
               <li className="flex items-start space-x-2">
                 <Check className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-                <span>Learn new English vocabulary words with context definitions.</span>
+                <span>Learn new English vocabulary words with contextual definitions.</span>
               </li>
               <li className="flex items-start space-x-2">
                 <Check className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
@@ -432,7 +462,7 @@ export default function Dashboard({
           <div className="p-5 rounded-xl border border-zinc-150 dark:border-zinc-800 bg-zinc-50/60 dark:bg-zinc-850/40 space-y-3">
             <div className="flex items-center space-x-2 text-emerald-600 dark:text-emerald-400">
               <GraduationCap className="h-5 w-5" />
-              <h3 className="font-bold text-sm text-zinc-900 dark:text-white">AI for Teachers</h3>
+              <h3 className="font-bold text-sm text-zinc-900 dark:text-white">Comprehension Generator for Teachers</h3>
             </div>
             <ul className="text-xs text-zinc-500 dark:text-zinc-400 space-y-2 leading-relaxed">
               <li className="flex items-start space-x-2">
@@ -938,10 +968,10 @@ export default function Dashboard({
       {/* 10. FINAL CALL TO ACTION */}
       <section aria-labelledby="final-cta-heading" className="rounded-2xl border border-emerald-200 bg-gradient-to-r from-emerald-600 to-teal-700 p-8 text-white text-center space-y-4 shadow-md">
         <h2 id="final-cta-heading" className="font-display text-2xl md:text-3xl font-extrabold text-white tracking-tight">
-          Ready to Create Your Free Comprehension Worksheet?
+          Ready to Start Your Reading Comprehension Practice?
         </h2>
         <p className="text-xs md:text-sm text-emerald-100 max-w-xl mx-auto leading-relaxed">
-          Join thousands of students and teachers using Comprevo to generate custom reading passages, practice questions, and data graphs in seconds.
+          Join thousands of students and teachers using Comprevo's <strong>Free Comprehension Generator</strong> to create custom reading passages, questions, and data graphs in seconds.
         </p>
         <div className="pt-2 flex flex-wrap justify-center gap-3">
           <button

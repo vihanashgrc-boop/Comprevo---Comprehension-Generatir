@@ -109,8 +109,16 @@ export default function PassageViewer({
         })
       });
 
-      const resData = await response.json();
-      const tutorReply = resData.passage || "I'm ready to help you analyze this text! Let's break down any sentences or ideas you find confusing.";
+      let tutorReply = "I'm ready to help you analyze this text! Let's break down any sentences or ideas you find confusing.";
+      try {
+        const resText = await response.text();
+        if (resText && resText.trim().length > 0) {
+          const resData = JSON.parse(resText);
+          if (resData && resData.passage) {
+            tutorReply = resData.passage;
+          }
+        }
+      } catch (_) {}
       
       setChatMessages((prev) => [...prev, { sender: "tutor", text: tutorReply }]);
     } catch (err) {

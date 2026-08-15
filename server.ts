@@ -450,23 +450,26 @@ const passageResponseSchema = {
 
 // API Endpoint: Generate Passage
 app.post("/api/generate-passage", async (req, res) => {
-  try {
-    const {
-      board = "National Standard",
-      academicLevel = "Class 8",
-      difficulty = "Medium",
-      topic = "Science",
-      passageType = "Informative",
-      passageLength = "Medium",
-      wordCount = "Random",
-      vocabularyLevel = "Grade-Level Standard",
-      questionTypes = ["mcq", "shortAnswer"],
-      grammarOptions = [],
-      learningObjectives = [],
-      language = "English",
-      aiFeature = "Generated Original Passage"
-    } = req.body;
+  const {
+    board = "National Standard",
+    academicLevel = "Class 8",
+    difficulty = "Medium",
+    topic = "Science",
+    passageType = "Informative",
+    passageLength = "Medium",
+    wordCount = "Random",
+    vocabularyLevel = "Grade-Level Standard",
+    questionTypes = ["mcq", "shortAnswer"],
+    grammarOptions = [],
+    learningObjectives = [],
+    language = "English",
+    aiFeature = "Generated Original Passage"
+  } = req.body || {};
 
+  const safeTopic = topic || "Science";
+  const isHindi = language === "Hindi";
+
+  try {
     const ai = getGeminiClient();
 
     // Map length/word count
@@ -492,7 +495,7 @@ Ensure the output complies with:
 - Target Grade/Exam: ${academicLevel}
 - Language: ${language}
 - Difficulty Level: ${difficulty} (Adjust vocabulary difficulty, sentence structure complexity, passage depth, and inference-demand of questions accordingly).
-- Topic: ${topic}
+- Topic: ${safeTopic}
 - Passage Type/Genre: ${passageType}
 ${passageType === "Data Interpretation" ? `- SPECIAL INSTRUCTION FOR DATA INTERPRETATION: You are generating a Data Interpretation assessment. The 'passage' text MUST include structured data tables, bar representations, numerical datasets, or data matrices formatted neatly in Markdown/ASCII tables and charts. The questions MUST directly test data reading, percentages, ratios, trend analysis, comparisons, and logical reasoning based on the provided dataset.` : ""}
 - ${lengthInstructions}
@@ -507,13 +510,13 @@ Please follow these question writing directives:
 - For 'matchFollowing', provide the matching items inside 'options'.
 - For 'grammar-based questions', formulate questions focused on ${grammarOptions.join(", ") || "grammar points"}.
 - Formulate application-based and inference-based questions suitable for the specified difficulty. Higher difficulties require deeper analytical questions rather than simple retrieval.
-- All text must be in ${language === "Hindi" ? "Hindi (हिंदी)" : "English"}. If Hindi is chosen, ensure the whole JSON (title, passage, questions, difficult words, explanations) is in Hindi except for standard JSON keys.`;
+- All text must be in ${isHindi ? "Hindi (हिंदी)" : "English"}. If Hindi is chosen, ensure the whole JSON (title, passage, questions, difficult words, explanations) is in Hindi except for standard JSON keys.`;
 
     let data;
     try {
       const response = await generateContentWithRetryAndFallback(ai, {
         contents: `Create a reading comprehension passage and assessment. 
-Topic details: "${topic}". 
+Topic details: "${safeTopic}". 
 Passage Type: "${passageType}". 
 Level: "${academicLevel}". 
 Language: "${language}". 
@@ -535,14 +538,13 @@ Please respond with a single, perfectly structured JSON object conforming strict
     } catch (aiErr: any) {
       console.warn("AI generation failed for Passage, activating pedagogical fallback:", aiErr.message);
       
-      const isHindi = language === "Hindi";
       const passageTitle = isHindi 
-        ? `${topic || "ज्ञान"} - एक अध्ययन`
-        : `The Wonders of ${topic || "Science & Discovery"}: A Journey of Understanding`;
+        ? `${safeTopic} - एक अध्ययन`
+        : `The Wonders of ${safeTopic}: A Journey of Understanding`;
 
       const fallbackText = isHindi
         ? `प्रकृति और विज्ञान हमारे जीवन के अभिन्न अंग हैं। किसी भी विषय का गहन अध्ययन हमें नई दृष्टि प्रदान करता है। ज्ञान केवल तथ्यों को याद रखना नहीं, बल्कि उनका तर्कसंगत विश्लेषण करना है।\n\nविभिन्न खोजों ने मानवीय समझ को विस्तार दिया है। जब हम जिज्ञासा और अवलोकन के माध्यम से नए सिद्धांतों को समझते हैं, तो हमारी बौद्धिक क्षमता में वृद्धि होती है। कठिन परिस्थितियों में भी वैज्ञानिक दृष्टिकोण हमें समाधान की ओर ले जाता है।\n\nअतः प्रत्येक विद्यार्थी को निरंतर अध्ययन और अनुसंधान की प्रवृत्ति अपनानी चाहिए। यह दृष्टिकोण न केवल परीक्षा में उत्तम परिणाम दिलाता है, बल्कि समाज के उत्थान में भी सहायक सिद्ध होता है।`
-        : `Throughout human history, the pursuit of knowledge regarding ${topic.toLowerCase()} has fundamentally transformed how societies perceive the world. When scholars and researchers investigate natural phenomena, they rely on methodical observation and rigorous experimentation to unlock deeper truths.\n\nAt the core of this discipline lies the balance between empirical evidence and imaginative hypothesis. Every major breakthrough begins with an inquisitive mind asking fundamental questions. Over time, collaborative efforts across cultures synthesize distinct insights, yielding progressive frameworks that benefit global communities.\n\nModern advancements demonstrate that continuous critical thinking is essential. By developing keen analytical habits and questioning assumptions, learners cultivate lifelong competencies that empower them to address future challenges with clarity and confidence.`;
+        : `Throughout human history, the pursuit of knowledge regarding ${safeTopic.toLowerCase()} has fundamentally transformed how societies perceive the world. When scholars and researchers investigate natural phenomena, they rely on methodical observation and rigorous experimentation to unlock deeper truths.\n\nAt the core of this discipline lies the balance between empirical evidence and imaginative hypothesis. Every major breakthrough begins with an inquisitive mind asking fundamental questions. Over time, collaborative efforts across cultures synthesize distinct insights, yielding progressive frameworks that benefit global communities.\n\nModern advancements demonstrate that continuous critical thinking is essential. By developing keen analytical habits and questioning assumptions, learners cultivate lifelong competencies that empower them to address future challenges with clarity and confidence.`;
 
       data = {
         title: passageTitle,
@@ -606,10 +608,39 @@ Please respond with a single, perfectly structured JSON object conforming strict
       };
     }
 
+    data.id = "passage_" + Date.now();
     res.json(data);
   } catch (error: any) {
     console.error("Gemini Generation Error:", error);
-    res.status(500).json({ error: error.message || "Failed to generate passage. Please verify your configurations and API key." });
+    res.json({
+      id: "passage_" + Date.now(),
+      title: `${safeTopic} - Comprehensive Assessment`,
+      passage: `The systematic study of ${safeTopic} forms a core component of contemporary academic inquiry. By examining principles through evidence and observation, learners develop structured critical reasoning skills.\n\nDeveloping strong reading comprehension skills equips learners with the ability to distill core concepts from complex texts and make thoughtful inferences.`,
+      estimatedReadingTime: 2,
+      difficultWords: [
+        { word: "Inference", meaning: "A conclusion reached on the basis of evidence and reasoning", contextSentence: "Careful reading allows students to draw valid inferences." }
+      ],
+      questions: [
+        {
+          id: 1,
+          type: "mcq",
+          question: "What is essential for systematic inquiry according to the text?",
+          options: ["A) Passive memorization", "B) Evidence-based study and observation", "C) Avoiding complex texts", "D) Guesswork"],
+          answer: "B) Evidence-based study and observation",
+          explanation: "The text emphasizes systematic observation and evidence-based study."
+        },
+        {
+          id: 2,
+          type: "shortAnswer",
+          question: "How does reading comprehension support learners?",
+          options: [],
+          answer: "It equips them to distill core concepts and draw thoughtful inferences.",
+          explanation: "The passage notes that comprehension skills enable learners to analyze text deeply."
+        }
+      ],
+      learningObjectivesMet: ["Reading Comprehension", "Analytical Reasoning"],
+      curriculumComplianceNotes: `Aligned with ${board} educational guidelines for ${academicLevel}.`
+    });
   }
 });
 
