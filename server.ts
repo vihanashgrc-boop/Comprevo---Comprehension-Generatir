@@ -965,6 +965,12 @@ app.get("/robots.txt", (req, res) => {
   res.sendFile(publicPath);
 });
 
+app.get("/ads.txt", (req, res) => {
+  const publicPath = path.join(process.cwd(), "public", "ads.txt");
+  res.header("Content-Type", "text/plain");
+  res.sendFile(publicPath);
+});
+
 app.get("/manifest.json", (req, res) => {
   const publicPath = path.join(process.cwd(), "public", "manifest.json");
   res.header("Content-Type", "application/json");
