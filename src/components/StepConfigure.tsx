@@ -7,6 +7,7 @@ import {
   ArrowLeft, ArrowRight, Settings, AlignLeft, Sparkles, BookOpen, 
   CheckSquare, HelpCircle, Languages, Activity, Check, Compass, AlertCircle
 } from "lucide-react";
+import { TOPIC_ANGLE_SUGGESTIONS } from "../utils/passageDiversity";
 
 interface StepConfigureProps {
   board: BoardType;
@@ -91,6 +92,7 @@ export default function StepConfigure({
   // STATES
   const [topic, setTopic] = useState<PassageTopic>("Science");
   const [customTopic, setCustomTopic] = useState("");
+  const [selectedAngle, setSelectedAngle] = useState<string>("");
   const [passageType, setPassageType] = useState<PassageType>("Informative");
   const [passageLength, setPassageLength] = useState<PassageLengthType>("Medium");
   const [wordCount, setWordCount] = useState<WordCountOption>("Random");
@@ -241,6 +243,7 @@ export default function StepConfigure({
       academicLevel,
       difficulty: finalDifficulty,
       topic: finalTopic === "Custom" ? customTopic || "General" : finalTopic,
+      topicAngle: selectedAngle || undefined,
       passageType: finalPassageType,
       passageLength: finalPassageLength,
       wordCount,
@@ -360,7 +363,10 @@ export default function StepConfigure({
               </label>
               <select
                 value={topic}
-                onChange={(e) => setTopic(e.target.value as PassageTopic)}
+                onChange={(e) => {
+                  setTopic(e.target.value as PassageTopic);
+                  setSelectedAngle("");
+                }}
                 className="w-full rounded-lg border border-zinc-200 bg-zinc-50/40 py-2 px-3 text-xs outline-none transition focus:border-emerald-600 focus:bg-white dark:focus:bg-zinc-800 dark:border-zinc-800 dark:bg-zinc-850 dark:text-white"
               >
                 {topics.map((t) => (
@@ -368,12 +374,48 @@ export default function StepConfigure({
                 ))}
               </select>
 
+              {/* Specific Angle Chips to Prevent Repetitive Generation */}
+              {topic !== "Custom" && topic !== "Random" && TOPIC_ANGLE_SUGGESTIONS[topic] && (
+                <div className="mt-2 space-y-1.5 animate-fadeIn">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-mono font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                      <Sparkles className="w-3 h-3" /> Unique Focus Subthemes (Anti-Repetition):
+                    </span>
+                    {selectedAngle && (
+                      <button
+                        type="button"
+                        onClick={() => setSelectedAngle("")}
+                        className="text-[10px] text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 underline"
+                      >
+                        Reset
+                      </button>
+                    )}
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {TOPIC_ANGLE_SUGGESTIONS[topic].map((angle) => (
+                      <button
+                        key={angle}
+                        type="button"
+                        onClick={() => setSelectedAngle(selectedAngle === angle ? "" : angle)}
+                        className={`text-[10px] px-2 py-0.5 rounded-full border transition-all text-left ${
+                          selectedAngle === angle
+                            ? "bg-emerald-600 text-white border-emerald-600 shadow-sm font-medium"
+                            : "bg-white dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 border-zinc-200 dark:border-zinc-700 hover:border-emerald-400"
+                        }`}
+                      >
+                        {angle}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {topic === "Custom" && (
                 <div className="mt-2.5 animate-fadeIn">
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Space Exploration or Ancient Monuments"
+                    placeholder="e.g. Space Exploration, Quantum Tunneling, or Emperor Ashoka"
                     value={customTopic}
                     onChange={(e) => setCustomTopic(e.target.value)}
                     className="w-full rounded-lg border border-zinc-200 bg-zinc-50/40 py-2 px-3 text-xs outline-none transition focus:border-emerald-600 focus:bg-white dark:focus:bg-zinc-800 dark:border-zinc-800 dark:bg-zinc-850 dark:text-white"

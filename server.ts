@@ -3,6 +3,7 @@ import path from "path";
 import dotenv from "dotenv";
 import { GoogleGenAI, Type } from "@google/genai";
 import { createServer as createViteServer } from "vite";
+import { getUniqueTopicAngle, selectDiverseFallback } from "./src/utils/passageDiversity";
 
 dotenv.config();
 
@@ -81,22 +82,33 @@ async function generateContentWithRetryAndFallback(
     throw new Error("GEMINI_API_KEY is not configured.");
   }
 
-  // Use primary and fallback models
+  // Use primary and fallback models per official Gemini API recommendations
+  // gemini-3.8-flash: Recommended for text and curriculum tasks
+  // gemini-3.1-flash-lite: Ultra-fast secondary fallback (~2s)
+  // gemini-2.5-flash: Resilient tertiary backup
   const modelsToTry = [
-    "gemini-2.5-flash",
-    "gemini-3.7-flash",
-    "gemini-3.1-flash-lite"
+    "gemini-3.8-flash",
+    "gemini-3.1-flash-lite",
+    "gemini-2.5-flash"
   ];
   let lastError: any = null;
 
   for (const model of modelsToTry) {
     try {
       console.log(`[Gemini] Attempting generation with model: ${model}`);
-      const response = await ai.models.generateContent({
+      
+      // 14-second race timeout so slow or hanging requests don't delay the user
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error(`Model ${model} request timed out after 14s`)), 14000);
+      });
+
+      const generationPromise = ai.models.generateContent({
         model: model,
         contents: options.contents,
         config: options.config,
       });
+
+      const response: any = await Promise.race([generationPromise, timeoutPromise]);
 
       if (response && response.text) {
         console.log(`[Gemini] Generation succeeded with model: ${model}`);
@@ -104,7 +116,7 @@ async function generateContentWithRetryAndFallback(
       }
     } catch (error: any) {
       lastError = error;
-      console.warn(`[Gemini] Model ${model} failed: ${error.message || error}. Trying next model...`);
+      console.warn(`[Gemini] Model ${model} failed or timed out: ${error.message || error}. Trying next model...`);
     }
   }
 
@@ -448,13 +460,16 @@ const passageResponseSchema = {
   ]
 };
 
-// API Endpoint: Generate Passage
+// API Endpoint: Generate Passage with Anti-Repetition & Multi-Angle Diversification
 app.post("/api/generate-passage", async (req, res) => {
   const {
     board = "National Standard",
     academicLevel = "Class 8",
     difficulty = "Medium",
     topic = "Science",
+    customTopic = "",
+    topicAngle = "",
+    previousTitles = [],
     passageType = "Informative",
     passageLength = "Medium",
     wordCount = "Random",
@@ -463,11 +478,15 @@ app.post("/api/generate-passage", async (req, res) => {
     grammarOptions = [],
     learningObjectives = [],
     language = "English",
-    aiFeature = "Generated Original Passage"
+    aiFeature = "Generated Original Passage",
+    seed = Math.random().toString(36).substring(2, 9)
   } = req.body || {};
 
-  const safeTopic = topic || "Science";
+  const safeTopic = customTopic || topic || "Science";
   const isHindi = language === "Hindi";
+
+  // Select a novel, unique angle or subtheme to prevent generic, repetitive outputs
+  const chosenAngle = topicAngle || getUniqueTopicAngle(safeTopic, previousTitles);
 
   try {
     const ai = getGeminiClient();
@@ -487,8 +506,20 @@ app.post("/api/generate-passage", async (req, res) => {
       }
     }
 
+    const previousTitlesList = Array.isArray(previousTitles) && previousTitles.length > 0
+      ? previousTitles.slice(0, 8).map((t: string) => `"${t}"`).join(", ")
+      : "None";
+
     const systemPrompt = `You are an expert curriculum designer, educator, and examination paper setter.
 Your goal is to generate an authentic, high-quality, age-appropriate reading comprehension passage and corresponding questions strictly following educational guidelines.
+
+CRITICAL ANTI-REPETITION & DIVERSITY MANDATE:
+- Do NOT generate generic or repetitive introductory passages.
+- SPECIFIC SUBTHEME / ANGLE: Focus deeply and specifically on: "${chosenAngle}".
+- Do NOT repeat or resemble these recently generated titles: ${previousTitlesList}.
+- Provide a creative, engaging, unique title specific to "${chosenAngle}".
+- Base the passage on vivid real-world details, scientific facts, historical anecdotes, or narrative suspense to guarantee high student engagement.
+- Generation Seed: ${seed}_${Date.now()}
 
 Ensure the output complies with:
 - Board: ${board}
@@ -496,6 +527,7 @@ Ensure the output complies with:
 - Language: ${language}
 - Difficulty Level: ${difficulty} (Adjust vocabulary difficulty, sentence structure complexity, passage depth, and inference-demand of questions accordingly).
 - Topic: ${safeTopic}
+- Specific Angle: ${chosenAngle}
 - Passage Type/Genre: ${passageType}
 ${passageType === "Data Interpretation" ? `- SPECIAL INSTRUCTION FOR DATA INTERPRETATION: You are generating a Data Interpretation assessment. The 'passage' text MUST include structured data tables, bar representations, numerical datasets, or data matrices formatted neatly in Markdown/ASCII tables and charts. The questions MUST directly test data reading, percentages, ratios, trend analysis, comparisons, and logical reasoning based on the provided dataset.` : ""}
 - ${lengthInstructions}
@@ -515,16 +547,18 @@ Please follow these question writing directives:
     let data;
     try {
       const response = await generateContentWithRetryAndFallback(ai, {
-        contents: `Create a reading comprehension passage and assessment. 
-Topic details: "${safeTopic}". 
-Passage Type: "${passageType}". 
-Level: "${academicLevel}". 
-Language: "${language}". 
-Board: "${board}". 
-Please respond with a single, perfectly structured JSON object conforming strictly to the requested schema. Ensure all fields are filled with high quality content.`,
+        contents: `Create a completely unique, non-repetitive reading comprehension assessment.
+Primary Topic: "${safeTopic}".
+Focus Sub-Angle: "${chosenAngle}".
+Passage Type: "${passageType}".
+Level: "${academicLevel}".
+Language: "${language}".
+Board: "${board}".
+Entropy Seed: "${seed}".
+Respond with a valid JSON object matching the schema.`,
         config: {
           systemInstruction: systemPrompt,
-          temperature: 0.75,
+          temperature: 0.95,
           responseMimeType: "application/json",
           responseSchema: passageResponseSchema
         }
@@ -535,74 +569,59 @@ Please respond with a single, perfectly structured JSON object conforming strict
       }
 
       data = extractAndParseJson(response.text);
+
+      // Validate core required fields
+      if (!data || !data.passage || !Array.isArray(data.questions) || data.questions.length === 0) {
+        throw new Error("Generated response is missing required passage text or questions array.");
+      }
     } catch (aiErr: any) {
-      console.warn("AI generation failed for Passage, activating pedagogical fallback:", aiErr.message);
+      console.warn("AI generation failed for Passage, activating diverse pedagogical fallback:", aiErr.message);
       
+      const fallbackItem = selectDiverseFallback(safeTopic, previousTitles);
+
       const passageTitle = isHindi 
-        ? `${safeTopic} - एक अध्ययन`
-        : `The Wonders of ${safeTopic}: A Journey of Understanding`;
+        ? `${safeTopic} - विशेष अध्ययन: ${chosenAngle}`
+        : fallbackItem.title;
 
       const fallbackText = isHindi
-        ? `प्रकृति और विज्ञान हमारे जीवन के अभिन्न अंग हैं। किसी भी विषय का गहन अध्ययन हमें नई दृष्टि प्रदान करता है। ज्ञान केवल तथ्यों को याद रखना नहीं, बल्कि उनका तर्कसंगत विश्लेषण करना है।\n\nविभिन्न खोजों ने मानवीय समझ को विस्तार दिया है। जब हम जिज्ञासा और अवलोकन के माध्यम से नए सिद्धांतों को समझते हैं, तो हमारी बौद्धिक क्षमता में वृद्धि होती है। कठिन परिस्थितियों में भी वैज्ञानिक दृष्टिकोण हमें समाधान की ओर ले जाता है।\n\nअतः प्रत्येक विद्यार्थी को निरंतर अध्ययन और अनुसंधान की प्रवृत्ति अपनानी चाहिए। यह दृष्टिकोण न केवल परीक्षा में उत्तम परिणाम दिलाता है, बल्कि समाज के उत्थान में भी सहायक सिद्ध होता है।`
-        : `Throughout human history, the pursuit of knowledge regarding ${safeTopic.toLowerCase()} has fundamentally transformed how societies perceive the world. When scholars and researchers investigate natural phenomena, they rely on methodical observation and rigorous experimentation to unlock deeper truths.\n\nAt the core of this discipline lies the balance between empirical evidence and imaginative hypothesis. Every major breakthrough begins with an inquisitive mind asking fundamental questions. Over time, collaborative efforts across cultures synthesize distinct insights, yielding progressive frameworks that benefit global communities.\n\nModern advancements demonstrate that continuous critical thinking is essential. By developing keen analytical habits and questioning assumptions, learners cultivate lifelong competencies that empower them to address future challenges with clarity and confidence.`;
+        ? `प्रकृति और विज्ञान हमारे जीवन के अभिन्न अंग हैं। जब हम '${chosenAngle}' के संदर्भ में विचार करते हैं, तो नए तथ्य और दृष्टिकोण सामने आते हैं। ज्ञान केवल तथ्यों को याद रखना नहीं, बल्कि उनका तर्कसंगत विश्लेषण करना है।\n\nविभिन्न खोजों ने मानवीय समझ को विस्तार दिया है। जब हम जिज्ञासा और अवलोकन के माध्यम से नए सिद्धांतों को समझते हैं, तो हमारी बौद्धिक क्षमता में वृद्धि होती है। कठिन परिस्थितियों में भी वैज्ञानिक दृष्टिकोण हमें समाधान की ओर ले जाता है।\n\nअतः प्रत्येक विद्यार्थी को निरंतर अध्ययन और अनुसंधान की प्रवृत्ति अपनानी चाहिए। यह दृष्टिकोण न केवल परीक्षा में उत्तम परिणाम दिलाता है, बल्कि समाज के उत्थान में भी सहायक सिद्ध होता है।`
+        : fallbackItem.passage;
 
       data = {
         title: passageTitle,
         passage: fallbackText,
-        estimatedReadingTime: 3,
+        estimatedReadingTime: Math.max(2, Math.round(fallbackText.split(" ").length / 100)),
         difficultWords: isHindi ? [
           { word: "अभिन्न", meaning: "जो अलग न किया जा सके / अनिवार्य", contextSentence: "प्रकृति हमारे जीवन का अभिन्न अंग है।" },
           { word: "तर्कसंगत", meaning: "तर्क या विचार पर आधारित / युक्तिसंगत", contextSentence: "हमें तर्कसंगत विश्लेषण करना चाहिए।" },
           { word: "जिज्ञासा", meaning: "जानने की तीव्र इच्छा", contextSentence: "जिज्ञासा से नई खोजों का मार्ग प्रशस्त होता है।" }
-        ] : [
-          { word: "Empirical", meaning: "Based on observation or experience rather than purely theoretical ideas", contextSentence: "Researchers depend on empirical evidence to validate their hypotheses." },
-          { word: "Inquisitive", meaning: "Curious and eager to learn or discover new things", contextSentence: "An inquisitive student continuously asks thoughtful questions during discussions." },
-          { word: "Synthesize", meaning: "To combine distinct elements or ideas into a coherent whole", contextSentence: "The scholars worked together to synthesize multiple cultural perspectives." }
-        ],
-        questions: [
+        ] : fallbackItem.words,
+        questions: isHindi ? [
           {
             id: 1,
             type: "mcq",
-            question: isHindi ? "गद्यांश के अनुसार ज्ञान का वास्तविक अर्थ क्या है?" : "According to the passage, what is central to the pursuit of knowledge?",
-            options: isHindi 
-              ? ["A) केवल तथ्यों को रटना", "B) तर्कसंगत विश्लेषण और समझ", "C) पुस्तकों का संचय", "D) बिना सोचे विचार स्वीकारना"]
-              : ["A) Memorizing isolated facts", "B) Methodical observation and empirical evidence", "C) Avoiding collaborative research", "D) Rejecting imaginative ideas"],
-            answer: isHindi ? "B) तर्कसंगत विश्लेषण और समझ" : "B) Methodical observation and empirical evidence",
-            explanation: isHindi 
-              ? "गद्यांश में स्पष्ट किया गया है कि ज्ञान केवल तथ्यों को याद रखना नहीं बल्कि तर्कसंगत विश्लेषण है।"
-              : "The text emphasizes that researchers rely on methodical observation and empirical validation rather than passive recall."
+            question: "गद्यांश के अनुसार ज्ञान का वास्तविक अर्थ क्या है?",
+            options: ["A) केवल तथ्यों को रटना", "B) तर्कसंगत विश्लेषण और समझ", "C) पुस्तकों का संचय", "D) बिना सोचे विचार स्वीकारना"],
+            answer: "B) तर्कसंगत विश्लेषण और समझ",
+            explanation: "गद्यांश में स्पष्ट किया गया है कि ज्ञान केवल तथ्यों को याद रखना नहीं बल्कि तर्कसंगत विश्लेषण है."
           },
           {
             id: 2,
             type: "shortAnswer",
-            question: isHindi ? "वैज्ञानिक दृष्टिकोण अपनाने से क्या लाभ होते हैं?" : "How does cultivating an inquisitive mind benefit learners?",
+            question: "वैज्ञानिक दृष्टिकोण अपनाने से क्या लाभ होते हैं?",
             options: [],
-            answer: isHindi 
-              ? "यह समस्याओं का समाधान खोजने और बौद्धिक क्षमता बढ़ाने में सहायक होता है।"
-              : "It fosters critical thinking habits that empower learners to address complex challenges with confidence.",
-            explanation: isHindi 
-              ? "गद्यांश के अनुसार वैज्ञानिक दृष्टिकोण कठिन परिस्थितियों में समाधान ढूंढने में सहायक होता है।"
-              : "The passage notes that developing analytical habits prepares individuals for future academic and real-world hurdles."
+            answer: "यह समस्याओं का समाधान खोजने और बौद्धिक क्षमता बढ़ाने में सहायक होता है।",
+            explanation: "गद्यांश के अनुसार वैज्ञानिक दृष्टिकोण कठिन परिस्थितियों में समाधान ढूंढने में सहायक होता है।"
           },
           {
             id: 3,
             type: "trueFalse",
-            question: isHindi ? "कठिन परिस्थितियों में जिज्ञासा कोई भूमिका नहीं निभाती।" : "Scientific breakthroughs typically begin with inquisitive questioning of fundamental assumptions.",
+            question: "कठिन परिस्थितियों में जिज्ञासा कोई भूमिका नहीं निभाती।",
             options: [],
-            answer: isHindi ? "असत्य (False)" : "True",
-            explanation: isHindi 
-              ? "गद्यांश के अनुसार जिज्ञासा समाधान की ओर ले जाती है।"
-              : "The second paragraph directly states that major breakthroughs originate from curious minds asking foundational questions."
-          },
-          {
-            id: 4,
-            type: "vocabulary",
-            question: isHindi ? "गद्यांश से 'जिज्ञासा' शब्द का सही अर्थ चुनिए।" : "Identify the synonym of the word 'Empirical' as used in the passage.",
-            options: ["A) Purely theoretical", "B) Observational and experimental", "C) Imaginary", "D) Unverified"],
-            answer: isHindi ? "जानने की तीव्र इच्छा" : "B) Observational and experimental",
-            explanation: "In the passage, empirical evidence refers to knowledge gained from verifiable observations and direct tests."
+            answer: "असत्य (False)",
+            explanation: "गद्यांश के अनुसार जिज्ञासा समाधान की ओर ले जाती है।"
           }
-        ],
+        ] : fallbackItem.questions,
         learningObjectivesMet: ["Reading Comprehension", "Critical Thinking", "Vocabulary in Context", "Inference Extraction"],
         curriculumComplianceNotes: `Aligned with ${board} educational guidelines for ${academicLevel} evaluation.`
       };
@@ -611,33 +630,15 @@ Please respond with a single, perfectly structured JSON object conforming strict
     data.id = "passage_" + Date.now();
     res.json(data);
   } catch (error: any) {
-    console.error("Gemini Generation Error:", error);
+    console.error("Critical Passage Generation Error:", error);
+    const emergencyItem = selectDiverseFallback(safeTopic, previousTitles);
     res.json({
       id: "passage_" + Date.now(),
-      title: `${safeTopic} - Comprehensive Assessment`,
-      passage: `The systematic study of ${safeTopic} forms a core component of contemporary academic inquiry. By examining principles through evidence and observation, learners develop structured critical reasoning skills.\n\nDeveloping strong reading comprehension skills equips learners with the ability to distill core concepts from complex texts and make thoughtful inferences.`,
-      estimatedReadingTime: 2,
-      difficultWords: [
-        { word: "Inference", meaning: "A conclusion reached on the basis of evidence and reasoning", contextSentence: "Careful reading allows students to draw valid inferences." }
-      ],
-      questions: [
-        {
-          id: 1,
-          type: "mcq",
-          question: "What is essential for systematic inquiry according to the text?",
-          options: ["A) Passive memorization", "B) Evidence-based study and observation", "C) Avoiding complex texts", "D) Guesswork"],
-          answer: "B) Evidence-based study and observation",
-          explanation: "The text emphasizes systematic observation and evidence-based study."
-        },
-        {
-          id: 2,
-          type: "shortAnswer",
-          question: "How does reading comprehension support learners?",
-          options: [],
-          answer: "It equips them to distill core concepts and draw thoughtful inferences.",
-          explanation: "The passage notes that comprehension skills enable learners to analyze text deeply."
-        }
-      ],
+      title: emergencyItem.title,
+      passage: emergencyItem.passage,
+      estimatedReadingTime: Math.max(2, Math.round(emergencyItem.passage.split(" ").length / 100)),
+      difficultWords: emergencyItem.words,
+      questions: emergencyItem.questions,
       learningObjectivesMet: ["Reading Comprehension", "Analytical Reasoning"],
       curriculumComplianceNotes: `Aligned with ${board} educational guidelines for ${academicLevel}.`
     });

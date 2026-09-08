@@ -1,10 +1,12 @@
 import { GeneratedPassage, Question, DifficultWord } from "../types";
+import { selectDiverseFallback, getUniqueTopicAngle } from "./passageDiversity";
 
 interface FallbackConfig {
   board?: string;
   academicLevel?: string;
   difficulty?: string;
   topic?: string;
+  customTopic?: string;
   passageType?: string;
   passageLength?: string;
   vocabularyLevel?: string;
@@ -12,6 +14,7 @@ interface FallbackConfig {
   questionTypes?: string[];
   grammarOptions?: string[];
   randomizedFields?: any;
+  previousTitles?: string[];
 }
 
 const TOPIC_TEMPLATES: Record<string, { title: string; passage: string; words: DifficultWord[]; questions: Question[] }> = {
@@ -160,26 +163,26 @@ const TOPIC_TEMPLATES: Record<string, { title: string; passage: string; words: D
 };
 
 export function generateClientFallbackPassage(config: FallbackConfig): GeneratedPassage {
-  const chosenTopicKey = Object.keys(TOPIC_TEMPLATES).find(k => 
-    k.toLowerCase() === (config.topic || "").toLowerCase()
-  ) || "Science";
-
-  const template = TOPIC_TEMPLATES[chosenTopicKey] || TOPIC_TEMPLATES["Science"];
+  const chosenTopic = config.customTopic || config.topic || "Science";
+  const excludeTitles = config.previousTitles || [];
+  
+  // Select a diverse fallback passage from our extensive multi-topic library that hasn't been generated yet
+  const diverseFallback = selectDiverseFallback(chosenTopic, excludeTitles);
   const isHindi = config.language === "Hindi";
 
   const fallbackTitle = isHindi 
-    ? `${config.topic || "ज्ञान"} - विशेष अध्ययन अभ्यास`
-    : template.title;
+    ? `${chosenTopic || "ज्ञान"} - विशेष अध्ययन अभ्यास`
+    : diverseFallback.title;
 
   const fallbackPassage = isHindi
     ? `ज्ञान और अनुसंधान मानव सभ्यता की प्रगति के आधार स्तंभ हैं। जब हम किसी विषय का गहन और क्रमबद्ध अध्ययन करते हैं, तो हमें नए तथ्यों और सिद्धांतों की समझ प्राप्त होती है।\n\nवैज्ञानिक दृष्टिकोण हमें अंधविश्वास से दूर रखकर तार्किक सोचने की क्षमता प्रदान करता है। किसी भी समस्या का समाधान ढूंढने के लिए अवलोकन, परिकल्पना और परीक्षण आवश्यक चरण हैं। जब छात्र नियमित रूप से गद्यांशों का विश्लेषण करते हैं, तो उनकी भाषा दक्षता और बौद्धिक क्षमता में अभूतपूर्व वृद्धि होती है।\n\nअतः प्रत्येक शिक्षार्थी को निरंतर स्वाध्याय और विवेकपूर्ण अध्ययन में संलग्न रहना चाहिए।`
-    : template.passage;
+    : diverseFallback.passage;
 
   const fallbackWords: DifficultWord[] = isHindi ? [
     { word: "क्रमबद्ध", meaning: "एक निश्चित क्रम या नियम के अनुसार व्यवस्थित", contextSentence: "क्रमबद्ध अध्ययन से कठिन विषय भी सरल हो जाते हैं।" },
     { word: "तार्किक", meaning: "तर्क पर आधारित / युक्तिसंगत", contextSentence: "वैज्ञानिक दृष्टिकोण तार्किक सोच को बढ़ावा देता है।" },
     { word: "अभ्यास", meaning: "निरंतर प्रयास और सीखना", contextSentence: "नियमित अभ्यास से परीक्षा में सफलता मिलती है।" }
-  ] : template.words;
+  ] : diverseFallback.words;
 
   const fallbackQuestions: Question[] = isHindi ? [
     {
@@ -206,7 +209,7 @@ export function generateClientFallbackPassage(config: FallbackConfig): Generated
       answer: "True",
       explanation: "गद्यांश में स्पष्ट रूप से उल्लेख है कि नियमित अभ्यास से भाषा दक्षता में वृद्धि होती है।"
     }
-  ] : template.questions;
+  ] : diverseFallback.questions;
 
   return {
     id: `passage_${Date.now()}`,
@@ -227,7 +230,7 @@ export function generateClientFallbackPassage(config: FallbackConfig): Generated
       board: (config.board as any) || "National Standard",
       academicLevel: config.academicLevel || "Class 8",
       difficulty: (config.difficulty as any) || "Medium",
-      topic: config.topic || "Science",
+      topic: chosenTopic,
       passageType: config.passageType || "Informative",
       passageLength: config.passageLength || "Medium",
       vocabularyLevel: config.vocabularyLevel || "Grade-Level Standard",

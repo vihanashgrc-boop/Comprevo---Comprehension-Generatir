@@ -280,11 +280,19 @@ export default function App() {
 
     try {
       let rawData: any = null;
+      // Gather previous titles from history to strictly guarantee fresh, non-repeating generation
+      const previousTitles = (user?.history || []).slice(0, 15).map((p: any) => p.title).filter(Boolean);
+      const generationPayload = {
+        ...finalConfig,
+        previousTitles,
+        seed: `${Date.now()}_${Math.random().toString(36).substring(2, 9)}`
+      };
+
       try {
         const response = await fetch("/api/generate-passage", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(finalConfig),
+          body: JSON.stringify(generationPayload),
         });
 
         const resText = await response.text();
@@ -299,10 +307,13 @@ export default function App() {
         console.warn("API request encountered a network or server issue, activating client-side generator fallback:", fetchErr);
       }
 
-      // If server didn't provide valid rawData, activate resilient client-side generator
+      // If server didn't provide valid rawData, activate resilient client-side diverse generator
       if (!rawData || !rawData.passage || !rawData.questions || rawData.error) {
-        console.log("Using instant high-quality educational generator fallback.");
-        rawData = generateClientFallbackPassage(finalConfig);
+        console.log("Using instant high-quality educational generator fallback with diversity matrix.");
+        rawData = generateClientFallbackPassage({
+          ...finalConfig,
+          previousTitles
+        });
       }
       
       // Construct structured GeneratedPassage
@@ -347,8 +358,12 @@ export default function App() {
       setStep("viewer");
     } catch (err: any) {
       console.error("Passage generation error:", err);
-      // Even if an unexpected error occurs, generate fallback passage immediately!
-      const fallbackPassage = generateClientFallbackPassage(finalConfig);
+      // Even if an unexpected error occurs, generate diverse fallback passage immediately!
+      const previousTitles = (user?.history || []).slice(0, 15).map((p: any) => p.title).filter(Boolean);
+      const fallbackPassage = generateClientFallbackPassage({
+        ...finalConfig,
+        previousTitles
+      });
       setActivePassage(fallbackPassage);
       setStep("viewer");
     } finally {
