@@ -953,6 +953,25 @@ Please evaluate this worksheet attempt and respond with a single, perfectly form
   }
 });
 
+// Serve Google Search Console verification file
+app.get("/googlefdbffdc8204dd8fc.html", (req, res) => {
+  res.header("Content-Type", "text/html");
+  res.send("google-site-verification: googlefdbffdc8204dd8fc.html\n");
+});
+
+app.get("/google:code.html", (req, res, next) => {
+  const code = req.params.code;
+  const fileName = `google${code}.html`;
+  const filePath = path.join(process.cwd(), "public", fileName);
+  res.header("Content-Type", "text/html");
+  res.sendFile(filePath, (err) => {
+    if (err) {
+      // If specific file not on disk, return standard verification format
+      res.send(`google-site-verification: ${fileName}\n`);
+    }
+  });
+});
+
 // Serve SEO & PWA files
 app.get("/sitemap.xml", (req, res) => {
   const publicPath = path.join(process.cwd(), "public", "sitemap.xml");
